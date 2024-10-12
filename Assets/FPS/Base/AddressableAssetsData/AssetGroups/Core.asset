@@ -13,20 +13,24 @@ MonoBehaviour:
   m_Name: Core
   m_EditorClassIdentifier: 
   m_GroupName: Core
-  m_Data:
-    m_SerializedData: []
   m_GUID: 875c7fbd73c2b694898a7ae41edc721d
   m_SerializeEntries:
+  - m_GUID: 2d8d6bf7a78f8c4499c4c3ecde431907
+    m_Address: UIRoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc3b5a81db3b6d14fbbcd4ee7b168e3c
+    m_Address: Assets/FPS/Base/Prefabs/Addressables/UIMainMenuWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Window
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd17922c2a2d3014990daeb2f7f3a4df
     m_Address: UILoaderWindow
     m_ReadOnly: 0
     m_SerializedLabels:
     - Window
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2d8d6bf7a78f8c4499c4c3ecde431907
-    m_Address: UIRoot
-    m_ReadOnly: 0
-    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7a1c5b9d714aad3488c1c78c88c854b1, type: 2}

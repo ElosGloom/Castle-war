@@ -19,7 +19,7 @@ namespace FPS
 
             //add other commands
 
-
+            queue.Enqueue(new LaunchCommand());
             queue.Enqueue(new HideLoaderCommand(queue));
             queue.Execute().Forget();
         }
