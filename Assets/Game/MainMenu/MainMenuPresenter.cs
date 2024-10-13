@@ -3,7 +3,7 @@ using MVP;
 
 namespace MainMenu
 {
-    public class MainMenuPresenter : UIPresenter<MainMenuWindow>
+    public class MainMenuPresenter : UIPresenter<UIMainMenuWindow>
     {
         protected override void OnShow()
         {
@@ -13,7 +13,7 @@ namespace MainMenu
         private void OnStartClick()
         {
             BattleFactory.SetupScene(1);
+            Dispose();
         }
-
     }
 }

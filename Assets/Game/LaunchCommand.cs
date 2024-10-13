@@ -4,10 +4,7 @@ public class LaunchCommand : SyncCommand
 {
     public override void Do()
     {
-        new RootPresenter();
-        
-        
-        
+        RootPresenter.Create();
         Status = CommandStatus.Success;
     }
 }

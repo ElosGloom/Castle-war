@@ -4,14 +4,24 @@ namespace MVP
 {
     public sealed class RootPresenter : Presenter
     {
-        public RootPresenter()
+        private static bool _hasInstance;
+
+        public static void Create()
         {
-            Init();
+            if (_hasInstance)
+                return;
+
+            new RootPresenter().Init();
+            _hasInstance = true;
+        }
+
+        private RootPresenter()
+        {
         }
 
         protected override void Init()
         {
-            var main = Add<MainMenuPresenter>();
+            var main = OpenPresenter<MainMenuPresenter>();
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MainMenu
 {
-    public class MainMenuWindow : UIWindow
+    public class UIMainMenuWindow : UIWindow
     {
         [SerializeField, Get] private ButtonsProvider buttonsProvider;
 
