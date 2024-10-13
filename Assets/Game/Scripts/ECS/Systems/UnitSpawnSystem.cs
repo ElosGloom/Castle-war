@@ -1,4 +1,4 @@
-﻿using Game.Scripts.ECS.Components;
+﻿using ECS;
 using Leopotam.EcsLite;
 
 namespace Game.Scripts.ECS.Systems
