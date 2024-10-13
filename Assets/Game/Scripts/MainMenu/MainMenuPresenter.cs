@@ -1,4 +1,5 @@
 using Battle;
+using Common;
 using MVP;
 
 namespace MainMenu
@@ -12,7 +13,7 @@ namespace MainMenu
 
         private void OnStartClick()
         {
-            BattleFactory.SetupScene(1);
+            BattleFactory.SetupScene(User.CurrentLevel);
             Dispose();
         }
     }
