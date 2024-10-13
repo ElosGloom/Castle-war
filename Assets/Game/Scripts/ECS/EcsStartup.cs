@@ -1,3 +1,4 @@
+using Game.Scripts.ECS.Systems;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ namespace Game.Scripts.ECS
 #if UNITY_EDITOR
                 .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ())
                 .Add (new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem ())
+                .Add(new UnitSpawnSystem())
 #endif
                 .Init();
         }
