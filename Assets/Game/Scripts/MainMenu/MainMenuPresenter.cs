@@ -13,7 +13,7 @@ namespace MainMenu
 
         private void OnStartClick()
         {
-            BattleFactory.SetupScene(User.CurrentLevel);
+            var go = BattleFactory.SetupScene(User.CurrentLevel);
             Dispose();
         }
     }

@@ -4,10 +4,6 @@ namespace Common
     {
         public static string Id;
         public static readonly Inventory Inventory = new();
-        public static int CurrentLevel
-        {
-            get;
-            set;
-        }
+        public static int CurrentLevel = 1;
     }
 }
