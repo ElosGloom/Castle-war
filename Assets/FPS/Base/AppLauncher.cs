@@ -1,11 +1,14 @@
 using Common;
+using ECS;
 using UnityEngine;
 
 namespace FPS
 {
     public class AppLauncher : MonoBehaviour
     {
-        private void Start()
+        [SerializeField, Get] private EcsStartup startup;
+
+        private void Awake()
         {
             Launch();
         }
@@ -20,7 +23,8 @@ namespace FPS
 
             //add other commands
 
-            queue.Enqueue(new LaunchCommand());
+            queue.Enqueue(new EcsInitCommand(startup));
+            queue.Enqueue(new LauncherRemoveCommand(this));
             queue.Enqueue(new HideLoaderCommand(queue));
             queue.Execute().Forget();
         }
