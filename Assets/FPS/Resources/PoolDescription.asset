@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PoolDescription
   m_EditorClassIdentifier: 
   poolables:
-  - <Prefab>k__BackingField: {fileID: 0}
+  - <Prefab>k__BackingField: {fileID: 736130393353601283, guid: e2afde5727309594c8e100610bcf4744, type: 3}
     <Count>k__BackingField: 1
-    <Key>k__BackingField: 
+    <Key>k__BackingField: melee
     <PrewarmType>k__BackingField: 0
   renamePoolables: 0

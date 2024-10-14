@@ -1,13 +1,13 @@
-using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Battle
 {
     public static class BattleFactory
     {
-        public static GameObject SetupScene(object config)
+        public static GameObject SetupScene(int lvl)
         {
-            throw new NotImplementedException();
+            return Object.Instantiate(Resources.Load<GameObject>($"Lvl{lvl}"));
         }
     }
 }
