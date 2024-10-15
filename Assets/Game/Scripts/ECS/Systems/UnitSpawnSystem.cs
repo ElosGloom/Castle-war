@@ -33,7 +33,7 @@ namespace ECS.Systems
 
             var hitPoint = hit.point;
 
-            if (hit.collider.gameObject.GetComponent<NavMeshAgent>()) return;
+            if (!hit.collider.gameObject.GetComponent<SpawnZone>()) return;
             
             var newUnit = _ecsWorld.NewEntity();
             EcsPool<UnitComponent> pool = _ecsWorld.GetPool<UnitComponent>();
