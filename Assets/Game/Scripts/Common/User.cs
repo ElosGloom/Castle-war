@@ -1,9 +1,9 @@
 namespace Common
 {
-    public static class User
-    {
-        public static string Id;
-        public static readonly Inventory Inventory = new();
-        public static int CurrentLevel = 1;
-    }
+	public class User
+	{
+		public string Id;
+		public readonly Inventory Inventory = new();
+		public int CurrentLevel = 1;
+	}
 }

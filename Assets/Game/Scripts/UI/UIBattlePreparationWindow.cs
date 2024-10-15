@@ -1,6 +1,6 @@
 using FPS;
 
-namespace BattlePreparation
+namespace UI
 {
     public class UIBattlePreparationWindow : UIWindow
     {

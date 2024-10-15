@@ -2,7 +2,7 @@ using FPS;
 using Game.UIService.Buttons;
 using UnityEngine;
 
-namespace MainMenu
+namespace UI
 {
     public class UIMainMenuWindow : UIWindow
     {

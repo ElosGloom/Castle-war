@@ -1,37 +1,66 @@
+using Common;
 using ECS.Systems;
+using ECS.Systems.UI;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace ECS
 {
-    public class EcsStartup : MonoBehaviour
-    {
-        EcsSystems _systems;
+	public class EcsStartup : MonoBehaviour
+	{
+		private EcsSystems _systems;
 
-        void Start()
-        {
-            var world = new EcsWorld();
-            _systems = new EcsSystems(world);
+		public void Start()
+		{
+			var world = new EcsWorld();
+			_systems = new EcsSystems(world);
+			_systems
 
-            _systems
+				#region Debug
+
 #if UNITY_EDITOR
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem())
+				.Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
+				.Add(new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem())
 #endif
-                .Add(new UnitSpawnSystem())
-                .Init();
-        }
 
-        void Update()
-        {
-            _systems?.Run();
-        }
+				#endregion
 
-        void OnDestroy()
-        {
-            _systems?.Destroy();
-            _systems?.GetWorld()?.Destroy();
-            _systems = null;
-        }
-    }
+				.Add(new AppInitSystem())
+
+				#region UI
+
+				.Add(new CloseWindowSystem())
+				.Add(new MainMenuSystem())
+
+				#endregion
+
+				#region PreBattle
+
+				.Add(new UnitSpawnSystem())
+
+				#endregion
+
+				#region Battle
+
+				#endregion
+
+				.Inject(
+					new RuntimeTempData(),
+					new User())
+				.Init();
+		}
+
+		private void Update()
+		{
+			_systems?.Run();
+		}
+
+		private void OnDestroy()
+		{
+			_systems?.Destroy();
+			_systems?.GetWorld()?.Destroy();
+			_systems = null;
+		}
+	}
 }
