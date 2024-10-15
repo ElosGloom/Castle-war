@@ -15,6 +15,7 @@ namespace ECS.Systems.UI
 			// ref var windowComponent = ref _filter.Pools.Inc1.Get(entity);
 			window.ButtonsProvider.Subscribe("Start", () =>
 			{
+				UIHelper.ShowWindow<UIBattlePreparationWindow>(_world.Value);
 				UIHelper.HideWindow<UIMainMenuWindow>(_world.Value);
 				BattleFactory.SetupScene(_user.Value.CurrentLevel);
 			});

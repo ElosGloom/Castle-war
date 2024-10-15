@@ -32,6 +32,7 @@ namespace ECS
 
 				.Add(new CloseWindowSystem())
 				.Add(new MainMenuSystem())
+				.Add(new BattlePreparationUISystem())
 
 				#endregion
 
