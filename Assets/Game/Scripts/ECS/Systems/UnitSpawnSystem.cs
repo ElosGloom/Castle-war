@@ -1,5 +1,4 @@
-﻿using Game.Scripts.ECS;
-using Game.Scripts.ECS.Monobehaviours;
+﻿using Game.Scripts.ECS.Monobehaviours;
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,7 +10,7 @@ namespace ECS.Systems
     {
         private EcsWorld _ecsWorld;
         private Camera _camera;
-        private float _spawnDelay = 0.1f; 
+        private float _spawnDelay = 0.05f; 
         private float _lastSpawnTime = 0f;
 
         public void Init(IEcsSystems systems)
@@ -35,8 +34,7 @@ namespace ECS.Systems
             var hitPoint = hit.point;
 
             if (hit.collider.gameObject.GetComponent<NavMeshAgent>()) return;
-
-
+            
             var newUnit = _ecsWorld.NewEntity();
             EcsPool<UnitComponent> pool = _ecsWorld.GetPool<UnitComponent>();
 
