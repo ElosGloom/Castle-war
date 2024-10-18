@@ -55,6 +55,7 @@ namespace ECS
 
 				#endregion
 
+				.Add(new SaveSystem())
 				.Inject(
 					new RuntimeData(),
 					new User(),
