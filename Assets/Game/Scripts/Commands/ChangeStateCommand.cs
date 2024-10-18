@@ -1,26 +1,19 @@
 using System;
-using ECS;
+using ECS.FSM;
 using FPS;
-using Leopotam.EcsLite;
-using UI;
 using UnityEngine;
 
 namespace Commands
 {
-	public class ShowUIRootCommand : SyncCommand
+	public class ChangeStateCommand<T> : SyncCommand where T : IState
 	{
-		private readonly EcsWorld _world;
-
-		public ShowUIRootCommand(EcsWorld world)
-		{
-			_world = world;
-		}
+		public override string Name => $"ChangeStateCommand:{typeof(T).Name}";
 
 		public override void Do()
 		{
 			try
 			{
-				UIHelper.ShowWindow<UIMainMenuWindow>(_world);
+				AppStateMachine.SetState<T>();
 				Status = CommandStatus.Success;
 			}
 			catch (Exception e)

@@ -1,5 +1,6 @@
 using Commands;
 using Common;
+using ECS.FSM;
 using FPS;
 using FPS.Sheets;
 using Leopotam.EcsLite;
@@ -8,12 +9,13 @@ using UnityEngine;
 
 namespace ECS.Systems
 {
-	public class AppInitSystem : IEcsInitSystem
+	public class AppInitState : IEcsSystem, IState
 	{
-		private EcsCustomInject<DTOStorage> _dtoStorage;
-		private EcsCustomInject<User> _user;
+		private readonly EcsWorldInject _world;
+		private readonly EcsCustomInject<DTOStorage> _dtoStorage;
+		private readonly EcsCustomInject<User> _user;
 
-		public void Init(IEcsSystems systems)
+		public void Enter()
 		{
 			new GameObject(nameof(RuntimeDispatcher)).AddComponent<RuntimeDispatcher>().Init();
 
@@ -23,12 +25,16 @@ namespace ECS.Systems
 
 
 			//add other commands
-			queue.Enqueue(new ShowUIRootCommand(systems.GetWorld()));
 			queue.Enqueue(new LoadUserCommand(_dtoStorage.Value, _user.Value));
 
 
 			queue.Enqueue(new HideLoaderCommand(queue));
+			queue.Enqueue(new ChangeStateCommand<MainMenuState>());
 			queue.Execute().Forget();
 		}
+
+		public void Update() { }
+
+		public void Exit() { }
 	}
 }

@@ -1,4 +1,5 @@
 using Common;
+using ECS.FSM;
 using ECS.Systems;
 using ECS.Systems.UI;
 using FPS.Sheets;
@@ -27,7 +28,14 @@ namespace ECS
 
 				#endregion
 
-				.Add(new AppInitSystem())
+				#region States
+
+				.Add(new AppInitState())
+				.Add(new MainMenuState())
+				.Add(new PreBattleState())
+				.Add(new AppStateMachine())
+
+				#endregion
 
 				#region UI
 
