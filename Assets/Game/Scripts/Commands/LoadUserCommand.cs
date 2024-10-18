@@ -31,6 +31,8 @@ namespace Commands
 					_user.Inventory[kvp.Key] = kvp.Value;
 				}
 			}
+
+			Status = CommandStatus.Success;
 		}
 	}
 }
