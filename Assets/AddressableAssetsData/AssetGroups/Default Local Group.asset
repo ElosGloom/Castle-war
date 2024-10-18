@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_GUID: 46a790b0e7475764e9274ccecee3af49
+  m_SerializeEntries:
+  - m_GUID: 2d8d6bf7a78f8c4499c4c3ecde431907
+    m_Address: UiRoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c80a271854f705b42a91d395503c3019
+    m_Address: Assets/FPS/Base/Prefabs/Addressables/UIBattlePreparationWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Window
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc3b5a81db3b6d14fbbcd4ee7b168e3c
+    m_Address: Assets/FPS/Base/Prefabs/Addressables/MainMenuWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Window
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd17922c2a2d3014990daeb2f7f3a4df
+    m_Address: Assets/FPS/Base/Prefabs/Addressables/UILoaderWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Window
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: ebf3d708e8154d842a1c77faf8ca4798, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 471ffb2f048810f4a87943a47bd78d78, type: 2}
+    - {fileID: 11400000, guid: e2028e68927920047a6f324cec6ce143, type: 2}
