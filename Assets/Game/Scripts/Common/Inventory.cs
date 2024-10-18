@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Common
 {
@@ -23,8 +24,10 @@ namespace Common
 			}
 		}
 
+		public KeyValuePair<string, int>[] AllItems => _container.ToArray();
+
 		public void Clear() => _container.Clear();
-		
+
 		public void Copy(Inventory source) => Copy(source._container);
 
 		public void Copy(Dictionary<string, int> source)

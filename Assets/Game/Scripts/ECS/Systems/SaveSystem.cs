@@ -14,6 +14,8 @@ namespace ECS.Systems
 		{
 			var raw = _user.Value.Serialize();
 			PlayerPrefs.SetString(Constants.UserPrefsKey, GZip.Encode(raw));
+			
+			PlayerPrefs.Save();
 		}
 	}
 }
