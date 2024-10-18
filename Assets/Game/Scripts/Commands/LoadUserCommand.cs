@@ -2,6 +2,7 @@
 using DTO;
 using FPS;
 using FPS.Sheets;
+using UnityEngine;
 
 namespace Commands
 {
@@ -18,19 +19,19 @@ namespace Commands
 
 		public override void Do()
 		{
-			bool hasSave = false;
+			//local save
+			bool hasSave = PlayerPrefs.HasKey(Constants.UserPrefsKey);
 			if (hasSave)
 			{
-				_user.Load();
+				var encodedData = PlayerPrefs.GetString(Constants.UserPrefsKey);
+				_user.Deserialize(GZip.Decode(encodedData));
 			}
 			else
 			{
-				var dto = _dtoStorage.GetSingle<UserDTO>();
-				foreach (var kvp in dto.Inventory)
-				{
-					_user.Inventory[kvp.Key] = kvp.Value;
-				}
+				_user.SetDefaults(_dtoStorage.GetSingle<UserDTO>());
 			}
+
+			Status = CommandStatus.Success;
 		}
 	}
 }
