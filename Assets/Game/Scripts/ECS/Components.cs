@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using FPS;
-using FPS.Pool;
+using FPS.UI;
 using Game.Scripts.ECS.Monobehaviours;
 
 namespace ECS

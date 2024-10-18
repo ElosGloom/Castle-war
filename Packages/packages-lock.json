@@ -14,7 +14,7 @@
       "dependencies": {
         "com.fps.utils": "0.0.1"
       },
-      "hash": "77423e555f3f2b453c48b7fcac0f65fbe5ff6e6a"
+      "hash": "a6a9f2bccbdae928ceaeda774785fd3c3945b492"
     },
     "com.fps.pool": {
       "version": "https://github.com/fixeles/fluffy-pool.git",
@@ -25,12 +25,21 @@
       },
       "hash": "d362a3e311bac8d65e8665c9b9a0d646870cfd92"
     },
+    "com.fps.sheets": {
+      "version": "https://github.com/fixeles/fluffy-sheets.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.fps.utils": "0.0.1"
+      },
+      "hash": "65495f479375303d78cfd8eff372da98a31bd866"
+    },
     "com.fps.utils": {
       "version": "https://github.com/fixeles/fluffy-utils.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "e6c70be940a7f7eebd8583eddb4c341ebda55312"
+      "hash": "1e951e0bd46e824fcf0d0f8f5ee247fafa0753b5"
     },
     "com.leopotam.ecslite": {
       "version": "https://github.com/Leopotam/ecslite.git",
@@ -102,12 +111,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collections": {
-      "version": "2.4.3",
+      "version": "2.5.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {
-        "com.unity.burst": "1.8.13",
-        "com.unity.test-framework": "1.4.3",
+        "com.unity.burst": "1.8.17",
+        "com.unity.test-framework": "1.4.5",
         "com.unity.nuget.mono-cecil": "1.11.4",
         "com.unity.test-framework.performance": "3.0.3"
       },
@@ -139,7 +148,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.inputsystem": {
-      "version": "1.11.0",
+      "version": "1.11.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -293,6 +302,13 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "jillejr.newtonsoft.json-for-unity": {
+      "version": "https://github.com/jilleJr/Newtonsoft.Json-for-Unity.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "f2c6cb09817832dccd0600f291053d8d55298ee9"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",

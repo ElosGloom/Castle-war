@@ -1,5 +1,5 @@
 using System;
-using FPS;
+using FPS.UI;
 using Leopotam.EcsLite;
 
 namespace ECS

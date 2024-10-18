@@ -8,7 +8,7 @@ namespace Common
 
         public void Load()
         {
-            Inventory["melee"] = 10;
+           
         }
     }
 }

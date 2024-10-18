@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
-using FPS;
+using FPS.UI;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 
 namespace ECS.Systems.UI
 {
@@ -26,7 +25,7 @@ namespace ECS.Systems.UI
 
 		private async UniTaskVoid ShowWindow(int entity)
 		{
-			var window = await FPS.UIService.Show<T>();
+			var window = await UIService.Show<T>();
 			OnShow(window, entity);
 		}
 

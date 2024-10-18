@@ -1,4 +1,4 @@
-using FPS;
+using FPS.UI;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
@@ -14,7 +14,7 @@ namespace ECS.Systems.UI
 			{
 				ref var windowComponent = ref _filter.Pools.Inc1.Get(entity);
 				windowComponent.WindowCloseCallback?.Invoke();
-				FPS.UIService.Hide<UIWindow>(windowComponent.WindowType);
+				UIService.Hide(windowComponent.WindowType);
 
 				systems.GetWorld().DelEntity(entity);
 			}
