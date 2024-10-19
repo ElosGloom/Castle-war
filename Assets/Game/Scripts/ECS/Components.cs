@@ -1,6 +1,6 @@
 ﻿using System;
+using ECS.Monobehaviours;
 using FPS.UI;
-using Game.Scripts.ECS.Monobehaviours;
 
 namespace ECS
 {

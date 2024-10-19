@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Game.Scripts.ECS.Monobehaviours;
+using ECS.Monobehaviours;
 using UniRx;
 
 namespace Common

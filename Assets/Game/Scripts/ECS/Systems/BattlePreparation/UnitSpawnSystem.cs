@@ -1,5 +1,5 @@
 ﻿using Common;
-using Game.Scripts.ECS.Monobehaviours;
+using ECS.Monobehaviours;
 using Game.Scripts.PreBattle;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
