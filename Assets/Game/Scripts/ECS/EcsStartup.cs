@@ -5,6 +5,7 @@ using ECS.Systems.UI;
 using FPS.Sheets;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Network;
 using UnityEngine;
 
 namespace ECS
@@ -56,11 +57,13 @@ namespace ECS
 
 				#endregion
 
+				.Add(new ApiTestSystem())
 				.Add(new SaveSystem())
 				.Inject(
 					new RuntimeData(),
 					new User(),
-					new DTOStorage())
+					new DTOStorage(),
+					new ApiService())
 				.Init();
 		}
 

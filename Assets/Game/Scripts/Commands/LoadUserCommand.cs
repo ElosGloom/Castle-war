@@ -24,7 +24,7 @@ namespace Commands
 			if (hasSave)
 			{
 				var encodedData = PlayerPrefs.GetString(Constants.UserPrefsKey);
-				_user.Deserialize(GZip.Decode(encodedData));
+				_user.Deserialize(encodedData);
 			}
 			else
 			{

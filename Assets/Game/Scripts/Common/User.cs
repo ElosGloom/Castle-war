@@ -1,6 +1,7 @@
 using System;
 using Converters;
 using DTO;
+using FPS;
 using Newtonsoft.Json;
 
 namespace Common
@@ -13,8 +14,8 @@ namespace Common
 
 		public string Serialize()
 		{
-			var serializeObject = JsonConvert.SerializeObject(this, new InventoryConverter());
-			return serializeObject;
+			var raw = JsonConvert.SerializeObject(this, new InventoryConverter());
+			return GZip.Encode(raw);
 		}
 
 		public void SetDefaults(UserDTO dto)
@@ -24,9 +25,10 @@ namespace Common
 			Inventory.Copy(dto.Inventory);
 		}
 
-		public void Deserialize(string serializedData)
+		public void Deserialize(string encoded)
 		{
-			var deserializedUser = JsonConvert.DeserializeObject<User>(serializedData, new InventoryConverter());
+			var decoded = GZip.Decode(encoded);
+			var deserializedUser = JsonConvert.DeserializeObject<User>(decoded, new InventoryConverter());
 			Id = deserializedUser.Id;
 			CurrentLevel = deserializedUser.CurrentLevel;
 			Inventory.Copy(deserializedUser.Inventory);
