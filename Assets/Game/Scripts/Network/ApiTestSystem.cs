@@ -16,13 +16,11 @@ namespace Network
 		public void Run(IEcsSystems systems)
 		{
 			if (Input.GetKeyDown(KeyCode.R))
-				_apiService.Value.RegisterAsync(Nickname, Password).Forget();
+				_apiService.Value.Register(Nickname, Password).Forget();
 			if (Input.GetKeyDown(KeyCode.L))
-				_apiService.Value.LoginAsync(Nickname, Password).Forget();
+				_apiService.Value.Login(Nickname, Password).Forget();
 			if (Input.GetKeyDown(KeyCode.S))
-				_apiService.Value.SetSavedDataAsync(_user.Value.Serialize()).Forget();
-			if (Input.GetKeyDown(KeyCode.G))
-				_apiService.Value.UpdateUserAsync(_user.Value).Forget();
+				_apiService.Value.SyncUserData(_user.Value).Forget();
 		}
 	}
 }

@@ -8,7 +8,8 @@ namespace Common
 {
 	public class User : ISerializable
 	{
-		[JsonProperty] public readonly Inventory Inventory = new();
+		public readonly Inventory Inventory = new();
+		public float Playtime;
 		[JsonProperty] public string Id { get; private set; }
 		[JsonProperty] public int CurrentLevel { get; private set; }
 
@@ -31,6 +32,7 @@ namespace Common
 			var deserializedUser = JsonConvert.DeserializeObject<User>(decoded, new InventoryConverter());
 			Id = deserializedUser.Id;
 			CurrentLevel = deserializedUser.CurrentLevel;
+			Playtime = deserializedUser.Playtime;
 			Inventory.Copy(deserializedUser.Inventory);
 		}
 	}

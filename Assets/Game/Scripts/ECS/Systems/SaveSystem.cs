@@ -5,15 +5,18 @@ using UnityEngine;
 
 namespace ECS.Systems
 {
-	public class SaveSystem : IEcsPostDestroySystem
+	public class SaveSystem : IEcsPostDestroySystem, IEcsRunSystem
 	{
 		private EcsCustomInject<User> _user;
 
 		public void PostDestroy(IEcsSystems systems)
 		{
 			var encoded = _user.Value.Serialize();
-			PlayerPrefs.SetString(Constants.UserPrefsKey, encoded);
-			PlayerPrefs.Save();
+		}
+
+		public void Run(IEcsSystems systems)
+		{
+			_user.Value.Playtime += Time.deltaTime;
 		}
 	}
 }

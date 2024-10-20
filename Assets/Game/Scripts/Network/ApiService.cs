@@ -1,3 +1,4 @@
+using System.Globalization;
 using Common;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
@@ -8,7 +9,7 @@ namespace Network
 {
 	public class ApiService : ApiBase
 	{
-		public async UniTask<RequestResult> LoginAsync(string username, string password)
+		public async UniTask<RequestResult> Login(string username, string password)
 		{
 			var form = new WWWForm();
 			form.AddField(nameof(username), username);
@@ -23,7 +24,7 @@ namespace Network
 
 //do re login with cached password hash. or update jwt token 
 
-		public async UniTask<RequestResult> RegisterAsync(string username, string password)
+		public async UniTask<RequestResult> Register(string username, string password)
 		{
 			var form = new WWWForm();
 			form.AddField(nameof(username), username);
@@ -36,20 +37,21 @@ namespace Network
 			return result;
 		}
 
-		public async UniTask<RequestResult> SetSavedDataAsync(string encodedData)
+		public async UniTask<RequestResult> SyncUserData(User user)
 		{
 			var form = new WWWForm();
+			form.AddField("playtime", user.Playtime.ToString(CultureInfo.InvariantCulture));
+			var encodedData = user.Serialize();
 			form.AddField("data", encodedData);
-			return await Post("data/user", form);
-		}
+			var result = await Post("data/user", form);
+			if (result.IsSuccess)
+			{
+				encodedData = result.Response;
+				user.Deserialize(encodedData);
+			}
 
-		public async UniTask<RequestResult> UpdateUserAsync(User user)
-		{
-			var result = await Get("data/user");
-			if (string.IsNullOrEmpty(result.Response))
-				return result;
-
-			user.Deserialize(result.Response);
+			PlayerPrefs.SetString(Constants.UserPrefsKey, encodedData);
+			PlayerPrefs.Save();
 			return result;
 		}
 	}
