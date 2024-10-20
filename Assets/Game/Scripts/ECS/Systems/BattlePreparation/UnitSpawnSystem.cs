@@ -13,48 +13,32 @@ namespace ECS.Systems
         private EcsWorld _ecsWorld;
         private EcsCustomInject<User> _user;
         private EcsCustomInject<RuntimeData> _runtimeData;
-        private Camera _camera;
-        private float _spawnDelay = 0.05f;
-        private float _lastSpawnTime = 0f;
+        private EcsFilter _filter;
 
         public void Init(IEcsSystems systems)
         {
             _ecsWorld = systems.GetWorld();
-            _camera = Camera.main;
             _runtimeData.Value.AvailableMeleeUnits = new(_user.Value.Inventory["melee"]);
         }
 
         public void Run(IEcsSystems systems)
         {
-            if (!Input.GetMouseButton(0)) return;
+            _filter = _ecsWorld.Filter<UnitSpawnRequest>().End();
+            foreach (var unitsEntity in _filter)
+            {
+                EcsPool<UnitComponent> pool = _ecsWorld.GetPool<UnitComponent>();
+                ref UnitComponent unitComponent = ref pool.Add(unitsEntity);
 
+                EcsPool<UnitSpawnRequest> pool2 = _ecsWorld.GetPool<UnitSpawnRequest>();
 
-            if (EventSystem.current.IsPointerOverGameObject()) return;
-
-            if (Time.time - _lastSpawnTime < _spawnDelay) return;
-
-            var ray = _camera.ScreenPointToRay(Input.mousePosition);
-
-            if (!Physics.Raycast(ray, out var hit)) return;
-
-            var hitPoint = hit.point;
-
-            if (!hit.collider.gameObject.GetComponent<SpawnZone>()) return;
-
-            if (_runtimeData.Value.AvailableMeleeUnits.Value <= 0) return;
-
-            var newUnit = _ecsWorld.NewEntity();
-            EcsPool<UnitComponent> pool = _ecsWorld.GetPool<UnitComponent>();
-            var unit = FPS.Pool.FluffyPool.Get<UnitView>("melee");
-            unit.transform.position = hitPoint;
-            ref UnitComponent unitComponent = ref pool.Add(newUnit);
-            unitComponent.UnitView = unit;
-            
-            _runtimeData.Value.SpawnedUnits.Push(unit);
-
-            _runtimeData.Value.AvailableMeleeUnits.Value--;
-
-            _lastSpawnTime = Time.time;
+                var unit = FPS.Pool.FluffyPool.Get<UnitView>("melee");
+                unit.transform.position = pool2.Get(unitsEntity).Position;
+                unitComponent.UnitView = unit;
+                
+                _runtimeData.Value.SpawnedUnits.Push(unit);
+                pool2.Del(unitsEntity);
+                _runtimeData.Value.AvailableMeleeUnits.Value--;
+            }
         }
     }
 }

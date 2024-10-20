@@ -32,7 +32,7 @@
       "dependencies": {
         "com.fps.utils": "0.0.1"
       },
-      "hash": "65495f479375303d78cfd8eff372da98a31bd866"
+      "hash": "1506ad86836be0e2afdceb166ee24f328a1232c3"
     },
     "com.fps.utils": {
       "version": "https://github.com/fixeles/fluffy-utils.git",

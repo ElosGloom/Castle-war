@@ -47,6 +47,7 @@ namespace ECS
 
 				#region PreBattle
 
+				.Add(new DrawingSystem())
 				.Add(new UnitSpawnSystem())
 
 				#endregion

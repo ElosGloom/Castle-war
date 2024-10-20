@@ -20,9 +20,9 @@ namespace DTO
         {
             Parser.GetValue(ht[nameof(Id)], out _id);
             Parser.GetValue(ht[nameof(Prefab)], out Prefab);
-            // Parser.GetValue(ht[nameof(UnitsData)], out UnitsData, new Vector3Converter());
-            var o = ht[nameof(UnitsData)];
-            UnitsData = JsonConvert.DeserializeObject<List<UnitDTO>>(o.ToString(),new Vector3Converter());
+            Parser.GetValue(ht[nameof(UnitsData)], out UnitsData, new Vector3Converter());
+            // var o = ht[nameof(UnitsData)];
+            // UnitsData = JsonConvert.DeserializeObject<List<UnitDTO>>(o.ToString(),new Vector3Converter());
         }
     }
 }

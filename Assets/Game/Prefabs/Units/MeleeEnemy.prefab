@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 63b3861db4dc798409510d6a24120a71, type: 2}
+    - target: {fileID: 5140082203796007835, guid: e2afde5727309594c8e100610bcf4744, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6316668426720692967, guid: e2afde5727309594c8e100610bcf4744, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy
