@@ -1,5 +1,4 @@
 using Common;
-using FPS;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -12,9 +11,8 @@ namespace ECS.Systems
 
 		public void PostDestroy(IEcsSystems systems)
 		{
-			var raw = _user.Value.Serialize();
-			PlayerPrefs.SetString(Constants.UserPrefsKey, GZip.Encode(raw));
-			
+			var encoded = _user.Value.Serialize();
+			PlayerPrefs.SetString(Constants.UserPrefsKey, encoded);
 			PlayerPrefs.Save();
 		}
 	}
