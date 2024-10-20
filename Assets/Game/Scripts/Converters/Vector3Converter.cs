@@ -2,53 +2,54 @@ using System;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Converters
+namespace FPS.Sheets.Converters
 {
-	public class Vector3Converter : JsonConverter<Vector3>
-	{
-		public override void WriteJson(JsonWriter writer, Vector3 value, JsonSerializer serializer)
-		{
-			writer.WriteStartObject();
-			writer.WritePropertyName("x");
-			writer.WriteValue(value.x);
-			writer.WritePropertyName("y");
-			writer.WriteValue(value.y);
-			writer.WritePropertyName("z");
-			writer.WriteValue(value.z);
-			writer.WriteEndObject();
-		}
+    public class Vector3Converter : JsonConverter<Vector3>
+    {
+        public override void WriteJson(JsonWriter writer, Vector3 value, JsonSerializer serializer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("x");
+            writer.WriteValue(value.x);
+            writer.WritePropertyName("y");
+            writer.WriteValue(value.y);
+            writer.WritePropertyName("z");
+            writer.WriteValue(value.z);
+            writer.WriteEndObject();
+        }
 
-		public override Vector3 ReadJson(
-			JsonReader reader,
-			Type objectType,
-			Vector3 existingValue,
-			bool hasExistingValue,
-			JsonSerializer serializer)
-		{
-			float x = 0, y = 0, z = 0;
+        public override Vector3 ReadJson(
+            JsonReader reader,
+            Type objectType,
+            Vector3 existingValue,
+            bool hasExistingValue,
+            JsonSerializer serializer)
+        {
+            Vector3 result = new();
 
-			reader.Read();
-			while (reader.TokenType != JsonToken.EndObject)
-			{
-				string propertyName = reader.Value!.ToString();
-				reader.Read();
-				switch (propertyName)
-				{
-					case "x":
-						x = (float)reader.Value;
-						break;
-					case "y":
-						y = (float)reader.Value;
-						break;
-					case "z":
-						z = (float)reader.Value;
-						break;
-				}
+            reader.Read();
+            while (reader.TokenType != JsonToken.EndObject)
+            {
+                string propertyName = reader.Value!.ToString();
+                reader.Read();
+                var value = reader.Value.ToString();
+                switch (propertyName)
+                {
+                    case "x":
+                        result.x = float.Parse(value);
+                        break;
+                    case "y":
+                        result.y = float.Parse(value);
+                        break;
+                    case "z":
+                        result.z = float.Parse(value);
+                        break;
+                }
 
-				reader.Read();
-			}
+                reader.Read();
+            }
 
-			return new Vector3(x, y, z);
-		}
-	}
+            return result;
+        }
+    }
 }

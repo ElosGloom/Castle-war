@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json;
+using UnityEngine;
 
-public class UnitDTO
+public readonly struct UnitDTO
 {
-    public Vector3 Position { get; }
-    public Vector3 Rotation { get; }
-    public string Type { get; }
+    public readonly Vector3 Position;
+    public readonly Vector3 Rotation;
+    public readonly string Type;
 
 
+    [JsonConstructor]
     public UnitDTO(Vector3 position, Vector3 rotation, string type)
     {
         Position = position;
