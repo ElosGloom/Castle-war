@@ -768,7 +768,7 @@ Transform:
   m_LocalScale: {x: 50, y: 0.05, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2443314672860310012}
+  m_Father: {fileID: 3971516815538340964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9190289304783682088
 MeshFilter:
@@ -872,8 +872,8 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 1
+  m_VoxelSize: 0.06666667
+  m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 7ae47d44d4cfbc140a4ab5cf4a9528e3, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &4127830813421351231
@@ -1263,7 +1263,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1774885767955606162}
   - {fileID: 7330808694994911856}
   - {fileID: 5402959111927885361}
   - {fileID: 2756534027399059433}
@@ -1434,7 +1433,7 @@ GameObject:
   - component: {fileID: 3971516815538340964}
   - component: {fileID: 7956415948056821376}
   m_Layer: 0
-  m_Name: Lvl1
+  m_Name: Lvl0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1456,6 +1455,7 @@ Transform:
   - {fileID: 8278150085157593974}
   - {fileID: 3873275753009941984}
   - {fileID: 1546901843407815081}
+  - {fileID: 1774885767955606162}
   - {fileID: 1089329600040454830}
   - {fileID: 2443314672860310012}
   m_Father: {fileID: 0}

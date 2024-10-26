@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "LayerLab\u200B"
+  m_text: "\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
   m_sharedMaterial: {fileID: 5416806443266638455, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
@@ -148,8 +148,9 @@ GameObject:
   - component: {fileID: 8690855470796199788}
   - component: {fileID: 2185557134003955327}
   - component: {fileID: 6366996397938940717}
+  - component: {fileID: 763846082782998904}
   m_Layer: 5
-  m_Name: Text_ForgotPassword
+  m_Name: Button_ForgotPassword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -317,6 +318,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &763846082782998904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780369606934110695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71593d8731438a4aa7709c1b9afbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 6366996397938940717}
 --- !u!1 &1385842832009644178
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,10 +342,10 @@ GameObject:
   - component: {fileID: 5245618501575924860}
   - component: {fileID: 6545788881102779358}
   - component: {fileID: 474783913934085563}
-  - component: {fileID: 5075451500195353459}
   - component: {fileID: 954553526419742613}
+  - component: {fileID: 8968147768012607822}
   m_Layer: 5
-  m_Name: UIBattlePreparationWindow
+  m_Name: UILoginWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -377,22 +391,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &5075451500195353459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385842832009644178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41d41c68bf5b41b4aae2b28969277641, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cachedTransform: {fileID: 5245618501575924860}
-  canvasGroup: {fileID: 474783913934085563}
-  meleeUnitsCount: {fileID: 0}
-  buttonsProvider: {fileID: 954553526419742613}
 --- !u!114 &954553526419742613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,11 +405,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttons:
     list:
-    - Key: RestartDrawing
-      Value: {fileID: 0}
-    - Key: ReturnUnit
-      Value: {fileID: 0}
+    - Key: Close
+      Value: {fileID: 8159115557702067581}
+    - Key: Login
+      Value: {fileID: 343293799399351047}
+    - Key: SignUp
+      Value: {fileID: 8023763552999123179}
+    - Key: Forgot_Password
+      Value: {fileID: 763846082782998904}
     keyCollision: 0
+--- !u!114 &8968147768012607822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385842832009644178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8e8f7b47d14cd0811005e44694abb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cachedTransform: {fileID: 5245618501575924860}
+  canvasGroup: {fileID: 474783913934085563}
+  buttonsProvider: {fileID: 954553526419742613}
+  loginInput: {fileID: 4307440161700680091}
+  passwordInput: {fileID: 3865684625051035244}
 --- !u!1 &2438838944334572119
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,8 +883,9 @@ GameObject:
   - component: {fileID: 8099325436772219594}
   - component: {fileID: 9066954446292658087}
   - component: {fileID: 8170372559129775041}
+  - component: {fileID: 8023763552999123179}
   m_Layer: 5
-  m_Name: Text_Signup
+  m_Name: Button_Signup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1033,6 +1053,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8023763552999123179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371947480225907631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71593d8731438a4aa7709c1b9afbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 8170372559129775041}
 --- !u!1 &4827081572541606051
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,8 +1078,9 @@ GameObject:
   - component: {fileID: 6329773755804913112}
   - component: {fileID: 1553709118589877843}
   - component: {fileID: 5194558640621398552}
+  - component: {fileID: 343293799399351047}
   m_Layer: 5
-  m_Name: Button_Blue
+  m_Name: Button_Login
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1154,6 +1188,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &343293799399351047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827081572541606051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71593d8731438a4aa7709c1b9afbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 5194558640621398552}
 --- !u!1 &4956968978906318525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,8 +1236,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 351.39996}
-  m_SizeDelta: {x: 802.00006, y: 100}
+  m_AnchoredPosition: {x: 0, y: 361.69995}
+  m_SizeDelta: {x: 838, y: 120.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4048572379140419830
 CanvasRenderer:
@@ -1461,7 +1508,7 @@ GameObject:
   - component: {fileID: 3321322039738655739}
   - component: {fileID: 3865684625051035244}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: Password_InputField (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1662,7 +1709,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0.000061035156}
+  m_SizeDelta: {x: 27.3345, y: 27.3345}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4492906818839598008
 CanvasRenderer:
@@ -1851,7 +1898,7 @@ GameObject:
   - component: {fileID: 4112670970440288899}
   - component: {fileID: 4307440161700680091}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: Login_InputField (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2002,7 +2049,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: LayerLab
+  m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -2165,6 +2212,7 @@ GameObject:
   - component: {fileID: 2564370195985175731}
   - component: {fileID: 7719911357694514596}
   - component: {fileID: 5488869260536224440}
+  - component: {fileID: 8159115557702067581}
   m_Layer: 5
   m_Name: Button_Close
   m_TagString: Untagged
@@ -2189,8 +2237,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -82, y: -70.60004}
-  m_SizeDelta: {x: 124, y: 100}
+  m_AnchoredPosition: {x: -77.45276, y: -66.052734}
+  m_SizeDelta: {x: 133.0945, y: 109.0946}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2564370195985175731
 CanvasRenderer:
@@ -2274,6 +2322,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8159115557702067581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7882227112863486849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71593d8731438a4aa7709c1b9afbd9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 5488869260536224440}
 --- !u!1 &8030394822890470468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2326,7 +2387,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8030394822890470468}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -2361,7 +2422,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2

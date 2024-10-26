@@ -29,7 +29,7 @@ namespace ECS.Systems
 
 
 			queue.Enqueue(new HideLoaderCommand(queue));
-			queue.Enqueue(new ChangeStateCommand<MainMenuState>());
+			queue.Enqueue(new ChangeStateCommand<LoginState>());
 			queue.Execute().Forget();
 		}
 
