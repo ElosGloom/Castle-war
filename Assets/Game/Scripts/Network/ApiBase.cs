@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -8,11 +9,11 @@ namespace Network
 	public abstract class ApiBase
 	{
 		private const string EndpointBase = "https://fps-castlewar.serveo.net/api/";
-		
+
 		protected string Bearer { private get; set; }
 		public bool IsAuthenticated => !string.IsNullOrEmpty(Bearer);
 
-		
+
 		protected async UniTask<RequestResult> Post(string api, string data)
 		{
 			return await MakeRequest(UnityWebRequest.Post(BuildEndpoint(api), data, "application/json"));
@@ -44,7 +45,14 @@ namespace Network
 			}
 #endif
 			TryApplyBearer(request);
-			await request.SendWebRequest();
+			try
+			{
+				await request.SendWebRequest();
+			}
+			catch (Exception e)
+			{
+				Debug.LogException(e);
+			}
 
 			RequestResult result = new()
 			{
@@ -52,7 +60,8 @@ namespace Network
 				Response = request.downloadHandler != null ? request.downloadHandler.text : string.Empty
 			};
 #if UNITY_EDITOR
-			if (!string.IsNullOrEmpty(result.Response)) Debug.Log(result.Response);
+			if (!string.IsNullOrEmpty(result.Response))
+				Debug.Log($"Response: {result.Response}");
 #endif
 			request.Dispose();
 			return result;
