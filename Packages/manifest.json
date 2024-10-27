@@ -9,6 +9,7 @@
     "com.leopotam.ecslite.di": "https://github.com/Leopotam/ecslite-di.git",
     "com.leopotam.ecslite.unityeditor": "https://github.com/Leopotam/ecslite-unityeditor.git",
     "com.madsbangh.easybuttons": "https://github.com/madsbangh/EasyButtons.git#upm",
+    "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "2.2.2",
     "com.unity.ai.navigation": "2.0.4",
     "com.unity.collab-proxy": "2.5.2",

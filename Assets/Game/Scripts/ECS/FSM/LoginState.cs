@@ -1,16 +1,15 @@
-using Leopotam.EcsLite;
+﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UI;
 
 namespace ECS.FSM
 {
-    public class MainMenuState : IEcsSystem, IState
+    public class LoginState : IEcsSystem, IState
     {
         private readonly EcsWorldInject _world;
-
         public void Enter()
         {
-            UIHelper.ShowWindow<UIMainMenuWindow>(_world.Value);
+            UIHelper.ShowWindow<UILoginWindow>(_world.Value);
         }
 
         public void Update()
@@ -19,7 +18,7 @@ namespace ECS.FSM
 
         public void Exit()
         {
-            UIHelper.HideWindow<UIMainMenuWindow>(_world.Value);
+            UIHelper.HideWindow<UILoginWindow>(_world.Value);
         }
     }
 }

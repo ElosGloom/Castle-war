@@ -32,6 +32,7 @@ namespace ECS
 				#region States
 
 				.Add(new AppInitState())
+				.Add(new LoginState())
 				.Add(new MainMenuState())
 				.Add(new PreBattleState())
 				.Add(new AppStateMachine())
@@ -42,12 +43,14 @@ namespace ECS
 
 				.Add(new CloseWindowSystem())
 				.Add(new MainMenuSystem())
+				.Add(new LoginUISystem())
 				.Add(new BattlePreparationUISystem())
 
 				#endregion
 
 				#region PreBattle
 
+				.Add(new DrawingSystem())
 				.Add(new UnitSpawnSystem())
 
 				#endregion
@@ -56,7 +59,7 @@ namespace ECS
 
 				#endregion
 
-				.Add(new ApiTestSystem())
+				// .Add(new ApiTestSystem())
 				.Add(new SaveSystem())
 				.Inject(
 					new RuntimeData(),
