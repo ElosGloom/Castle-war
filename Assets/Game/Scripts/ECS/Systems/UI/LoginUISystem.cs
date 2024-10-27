@@ -6,6 +6,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Network;
 using UI;
+using UnityEngine;
 
 namespace ECS.Systems.UI
 {
@@ -19,6 +20,12 @@ namespace ECS.Systems.UI
         
         protected override void OnShow(UILoginWindow window, int entity)
         {
+            if (PlayerPrefs.HasKey("password"))
+            {
+                TryLogin(PlayerPrefs.GetString(Constants.UserName), PlayerPrefs.GetString(Constants.Password));
+                _apiService.Value.UpdateUserAsync(_user.Value).Forget();
+                AppStateMachine.SetState<MainMenuState>();
+            }
             window.ButtonsProvider.Subscribe("Close", () =>
             {
                 AppStateMachine.SetState<MainMenuState>();
@@ -42,13 +49,20 @@ namespace ECS.Systems.UI
             if (result.IsSuccess)
             {
                AppStateMachine.SetState<MainMenuState>();
+               PlayerPrefs.SetString(Constants.UserName,userName);
+               PlayerPrefs.SetString(Constants.Password,password);
             }
 
         }
 
         private async void TrySignUp(string userName, string password)
         {
-           await _apiService.Value.RegisterAsync(userName, password);
+          var result= await _apiService.Value.RegisterAsync(userName, password);
+          if (result.IsSuccess)
+          {
+           PlayerPrefs.SetString("userName",userName);
+           PlayerPrefs.SetString("password",password);
+          }
              
         }
     }
