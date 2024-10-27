@@ -8,8 +8,8 @@ namespace Common
 {
 	public class User : ISerializable
 	{
-		public readonly Inventory Inventory = new();
 		public float Playtime;
+		[JsonProperty] public readonly Inventory Inventory = new();
 		[JsonProperty] public string Id { get; private set; }
 		[JsonProperty] public int CurrentLevel { get; private set; }
 

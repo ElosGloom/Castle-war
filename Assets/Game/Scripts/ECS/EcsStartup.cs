@@ -32,7 +32,6 @@ namespace ECS
 				#region States
 
 				.Add(new AppInitState())
-				.Add(new LoginState())
 				.Add(new MainMenuState())
 				.Add(new PreBattleState())
 				.Add(new AppStateMachine())

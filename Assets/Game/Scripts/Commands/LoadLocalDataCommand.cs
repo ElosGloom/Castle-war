@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace Commands
 {
-	public class LoadUserCommand : SyncCommand
+	public class LoadLocalDataCommand : SyncCommand
 	{
 		private readonly DTOStorage _dtoStorage;
 		private readonly User _user;
 
-		public LoadUserCommand(DTOStorage dtoStorage, User user)
+		public LoadLocalDataCommand(DTOStorage dtoStorage, User user)
 		{
 			_dtoStorage = dtoStorage;
 			_user = user;

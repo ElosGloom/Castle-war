@@ -24,7 +24,7 @@ namespace ECS.Systems
 
 			//add other commands
 			queue.Enqueue(new ShowUIRootCommand(systems.GetWorld()));
-			queue.Enqueue(new LoadUserCommand(_dtoStorage.Value, _user.Value));
+			queue.Enqueue(new LoadLocalDataCommand(_dtoStorage.Value, _user.Value));
 
 
 			queue.Enqueue(new HideLoaderCommand(queue));
