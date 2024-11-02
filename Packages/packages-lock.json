@@ -14,7 +14,7 @@
       "dependencies": {
         "com.fps.utils": "0.0.1"
       },
-      "hash": "a6a9f2bccbdae928ceaeda774785fd3c3945b492"
+      "hash": "902a36b2a3ae56a55c1aff29b2aa81f71f551209"
     },
     "com.fps.pool": {
       "version": "https://github.com/fixeles/fluffy-pool.git",
