@@ -29,7 +29,7 @@ namespace Commands
 			if (await _apiService.TryReLogin())
 			{
 				await _apiService.SyncUserData(_user);
-				AppStateMachine.SetState<MainMenuState>();
+				AppStateMachine.SetState(AppState.MainMenu);
 			}
 			else
 				UIHelper.ShowWindow<UILoginWindow>(_world);
