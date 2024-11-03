@@ -18,7 +18,7 @@ namespace ECS.Systems.UI
 		{
 			window.ButtonsProvider.Subscribe("Close", () =>
 			{
-				AppStateMachine.SetState<MainMenuState>();
+				AppStateMachine.SetState(AppState.MainMenu);
 				UIHelper.HideWindow<UILoginWindow>(_world.Value);
 			});
 
@@ -46,7 +46,7 @@ namespace ECS.Systems.UI
 			if (result.IsSuccess)
 			{
 				await _apiService.Value.SyncUserData(_user.Value);
-				AppStateMachine.SetState<MainMenuState>();
+				AppStateMachine.SetState(AppState.MainMenu);
 				UIHelper.HideWindow<UILoginWindow>(_world.Value);
 			}
 		}

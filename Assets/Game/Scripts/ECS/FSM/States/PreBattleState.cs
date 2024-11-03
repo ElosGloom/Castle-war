@@ -11,12 +11,15 @@ using UnityEngine;
 
 namespace ECS.FSM
 {
-    public class PreBattleState : IEcsSystem, IState
+    public class PreBattleState : IEcsSystem, IStateEnter
     {
         private EcsWorldInject _world;
         private EcsCustomInject<User> _user;
         private EcsCustomInject<DTOStorage> _dtoStorage;
         private EcsCustomInject<RuntimeData> _runtimeData;
+        
+        
+        public AppState TargetState => AppState.PreBattle;
 
         public void Enter()
         {
@@ -36,14 +39,6 @@ namespace ECS.FSM
                 unit.transform.rotation= Quaternion.Euler(unitDto.Rotation);
                 unit.type = unitDto.Type;
             }
-        }
-
-        public void Update()
-        {
-        }
-
-        public void Exit()
-        {
         }
     }
 }

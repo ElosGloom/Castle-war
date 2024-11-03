@@ -10,12 +10,15 @@ using UnityEngine;
 
 namespace ECS.Systems
 {
-	public class AppInitState : IEcsSystem, IState
+	public class AppInitState : IEcsSystem, IStateEnter
 	{
 		private readonly EcsWorldInject _world;
 		private readonly EcsCustomInject<DTOStorage> _dtoStorage;
 		private readonly EcsCustomInject<User> _user;
 		private readonly EcsCustomInject<ApiService> _apiService;
+
+
+		public AppState TargetState => AppState.Init;
 
 		public void Enter()
 		{
@@ -34,9 +37,5 @@ namespace ECS.Systems
 			queue.Enqueue(new HideLoaderCommand(queue));
 			queue.Execute().Forget();
 		}
-
-		public void Update() { }
-
-		public void Exit() { }
 	}
 }
