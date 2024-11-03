@@ -5,6 +5,7 @@ using FPS;
 using FPS.Sheets;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Network;
 using UnityEngine;
 
 namespace ECS.Systems
@@ -14,6 +15,7 @@ namespace ECS.Systems
 		private readonly EcsWorldInject _world;
 		private readonly EcsCustomInject<DTOStorage> _dtoStorage;
 		private readonly EcsCustomInject<User> _user;
+		private readonly EcsCustomInject<ApiService> _apiService;
 
 		public void Enter()
 		{
@@ -25,11 +27,11 @@ namespace ECS.Systems
 
 
 			//add other commands
-			queue.Enqueue(new LoadUserCommand(_dtoStorage.Value, _user.Value));
+			queue.Enqueue(new LoadLocalDataCommand(_dtoStorage.Value, _user.Value));
+			queue.Enqueue(new LoginCommand(_apiService.Value, _world.Value, _user.Value));
 
 
 			queue.Enqueue(new HideLoaderCommand(queue));
-			queue.Enqueue(new ChangeStateCommand<MainMenuState>());
 			queue.Execute().Forget();
 		}
 

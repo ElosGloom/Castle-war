@@ -1,21 +1,25 @@
 using Common;
-using FPS;
+using Cysharp.Threading.Tasks;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Network;
 using UnityEngine;
 
 namespace ECS.Systems
 {
-	public class SaveSystem : IEcsPostDestroySystem
+	public class SaveSystem : IEcsPostDestroySystem, IEcsRunSystem
 	{
 		private EcsCustomInject<User> _user;
+		private EcsCustomInject<ApiService> _apiService;
 
 		public void PostDestroy(IEcsSystems systems)
 		{
-			var raw = _user.Value.Serialize();
-			PlayerPrefs.SetString(Constants.UserPrefsKey, GZip.Encode(raw));
-			
-			PlayerPrefs.Save();
+			_apiService.Value.SyncUserData(_user.Value).Forget();
+		}
+
+		public void Run(IEcsSystems systems)
+		{
+			_user.Value.Playtime += Time.deltaTime;
 		}
 	}
 }

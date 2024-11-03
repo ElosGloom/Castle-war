@@ -5,6 +5,7 @@ using ECS.Systems.UI;
 using FPS.Sheets;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Network;
 using UnityEngine;
 
 namespace ECS
@@ -41,12 +42,14 @@ namespace ECS
 
 				.Add(new CloseWindowSystem())
 				.Add(new MainMenuSystem())
+				.Add(new LoginUISystem())
 				.Add(new BattlePreparationUISystem())
 
 				#endregion
 
 				#region PreBattle
 
+				.Add(new DrawingSystem())
 				.Add(new UnitSpawnSystem())
 
 				#endregion
@@ -55,11 +58,13 @@ namespace ECS
 
 				#endregion
 
+				// .Add(new ApiTestSystem())
 				.Add(new SaveSystem())
 				.Inject(
 					new RuntimeData(),
 					new User(),
-					new DTOStorage())
+					new DTOStorage(),
+					new ApiService())
 				.Init();
 		}
 

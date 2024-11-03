@@ -17,4 +17,8 @@ MonoBehaviour:
     <Count>k__BackingField: 1
     <Key>k__BackingField: melee
     <PrewarmType>k__BackingField: 0
+  - <Prefab>k__BackingField: {fileID: 5774273953848782403, guid: e186b0d75b499764bb057d8c17611499, type: 3}
+    <Count>k__BackingField: 1
+    <Key>k__BackingField: enemyMelee
+    <PrewarmType>k__BackingField: 0
   renamePoolables: 0

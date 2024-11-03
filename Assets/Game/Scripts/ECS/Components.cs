@@ -1,6 +1,8 @@
 ﻿using System;
+using ECS.Monobehaviours;
 using FPS.UI;
-using Game.Scripts.ECS.Monobehaviours;
+using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
 
 namespace ECS
 {
@@ -28,4 +30,9 @@ namespace ECS
 	public struct OpenWindowRequest<T> where T : IWindow { }
 
 	public struct CloseWindowRequest { }
+
+	public struct UnitSpawnRequest
+	{
+		public Vector3 Position;
+	}
 }
