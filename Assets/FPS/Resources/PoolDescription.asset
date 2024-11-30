@@ -21,4 +21,8 @@ MonoBehaviour:
     <Count>k__BackingField: 1
     <Key>k__BackingField: enemyMelee
     <PrewarmType>k__BackingField: 0
+  - <Prefab>k__BackingField: {fileID: 1913394795850583420, guid: 90d297c3b33777a48ae712fe069ee679, type: 3}
+    <Count>k__BackingField: 1
+    <Key>k__BackingField: range
+    <PrewarmType>k__BackingField: 0
   renamePoolables: 0

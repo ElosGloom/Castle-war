@@ -24,6 +24,7 @@ namespace ECS.FSM
         public void Enter()
         {
             _runtimeData.Value.AvailableMeleeUnits.Value=_user.Value.Inventory["melee"];
+            _runtimeData.Value.AvailableRangeUnits.Value=_user.Value.Inventory["range"];
             UIHelper.ShowWindow<UIBattlePreparationWindow>(_world.Value);
             BattleFactory.SetupScene(_user.Value.CurrentLevel);
             SpawnEnemyUnits();

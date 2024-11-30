@@ -13,13 +13,18 @@ namespace ECS.Systems.UI
         private EcsWorldInject _world;
         private EcsCustomInject<User> _user;
         private EcsCustomInject<RuntimeData> _runtimeData;
-
-
+        
+        
         protected override void OnShow(UIBattlePreparationWindow window, int entity)
         {
             _runtimeData.Value.AvailableMeleeUnits.Subscribe(count =>
             {
                 window.meleeUnitsCount.text = count.ToString();
+            }).AddTo(window.Disposable);
+            
+            _runtimeData.Value.AvailableRangeUnits.Subscribe(count =>
+            {
+                window.rangeUnitsCount.text = count.ToString();
             }).AddTo(window.Disposable);
 
             window.ButtonsProvider.Subscribe("RestartDrawing", () =>
@@ -54,6 +59,13 @@ namespace ECS.Systems.UI
                     }
                 }
             });
+            
+             window.StringButtonsProvider.Subscribe(OnClick);
+        }
+        private void OnClick(string s)
+        {
+               
+            _runtimeData.Value.SelectedUnitsKey.Value = s; 
         }
     }
 }

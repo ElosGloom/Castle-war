@@ -1,8 +1,11 @@
 ﻿using Common;
 using ECS.Monobehaviours;
+using FPS.UI;
 using Game.Scripts.PreBattle;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UI;
+using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,11 +17,13 @@ namespace ECS.Systems
         private EcsCustomInject<User> _user;
         private EcsCustomInject<RuntimeData> _runtimeData;
         private EcsFilter _filter;
+        private string _selectedUnitName;
 
         public void Init(IEcsSystems systems)
         {
             _ecsWorld = systems.GetWorld();
             _runtimeData.Value.AvailableMeleeUnits = new(_user.Value.Inventory["melee"]);
+            _runtimeData.Value.AvailableRangeUnits = new(_user.Value.Inventory["range"]);
         }
 
         public void Run(IEcsSystems systems)
@@ -31,14 +36,24 @@ namespace ECS.Systems
 
                 EcsPool<UnitSpawnRequest> pool2 = _ecsWorld.GetPool<UnitSpawnRequest>();
 
-                var unit = FPS.Pool.FluffyPool.Get<UnitView>("melee");
+                var unit = FPS.Pool.FluffyPool.Get<UnitView>(_selectedUnitName);
                 unit.transform.position = pool2.Get(unitsEntity).Position;
                 unitComponent.UnitView = unit;
-                
+
                 _runtimeData.Value.SpawnedUnits.Push(unit);
                 pool2.Del(unitsEntity);
-                _runtimeData.Value.AvailableMeleeUnits.Value--;
+                
+                if (_selectedUnitName == "melee")
+                {
+                    _runtimeData.Value.AvailableMeleeUnits.Value--;
+                }
+                else if (_selectedUnitName == "range")
+                {
+                    _runtimeData.Value.AvailableRangeUnits.Value--;
+                }
             }
+
+            _runtimeData.Value.SelectedUnitsKey.Subscribe(key => { _selectedUnitName = key; });
         }
     }
 }
