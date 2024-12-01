@@ -7,6 +7,7 @@ using FPS;
 using Leopotam.EcsLite;
 using Network;
 using UI;
+using VContainer;
 
 namespace Commands
 {
@@ -16,7 +17,7 @@ namespace Commands
 		private readonly EcsWorld _world;
 		private readonly User _user;
 
-
+		[Inject]
 		public LoginCommand(ApiService apiService, EcsWorld world, User user)
 		{
 			_apiService = apiService;

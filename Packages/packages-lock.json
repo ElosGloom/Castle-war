@@ -12,18 +12,18 @@
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.fps.utils": "0.0.1"
+        "com.fps.utils": "0.0.2"
       },
-      "hash": "902a36b2a3ae56a55c1aff29b2aa81f71f551209"
+      "hash": "3d2d40c467a9e2fe123ea8d8ec044f536372c9a3"
     },
     "com.fps.pool": {
       "version": "https://github.com/fixeles/fluffy-pool.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.fps.utils": "0.0.1"
+        "com.fps.utils": "0.0.2"
       },
-      "hash": "d362a3e311bac8d65e8665c9b9a0d646870cfd92"
+      "hash": "0789cbf365621c5e95ccaf870d46dd3390338305"
     },
     "com.fps.sheets": {
       "version": "https://github.com/fixeles/fluffy-sheets.git",
@@ -39,7 +39,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "1e951e0bd46e824fcf0d0f8f5ee247fafa0753b5"
+      "hash": "0cd3d1f9af8a34a60c12046ee986c96484d6c436"
     },
     "com.leopotam.ecslite": {
       "version": "https://github.com/Leopotam/ecslite.git",
@@ -47,13 +47,6 @@
       "source": "git",
       "dependencies": {},
       "hash": "5053141d7d663c6b1855c8409ac93dfac807b239"
-    },
-    "com.leopotam.ecslite.di": {
-      "version": "https://github.com/Leopotam/ecslite-di.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "99347c110c316a54c1cf2f0b268950f02612662d"
     },
     "com.leopotam.ecslite.unityeditor": {
       "version": "https://github.com/Leopotam/ecslite-unityeditor.git",
@@ -315,6 +308,13 @@
       "source": "git",
       "dependencies": {},
       "hash": "415da265ef0213c158bb9e92613a2a8e98e1e18f"
+    },
+    "jp.hadashikick.vcontainer": {
+      "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.16.5",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "dda70a5b210c8b8d373bd957c715e9149779dd76"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
