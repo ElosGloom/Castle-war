@@ -1,12 +1,14 @@
 using ECS.FSM;
-using Leopotam.EcsLite.Di;
+using FPS.UI;
 using UI;
+using VContainer;
 
 namespace ECS.Systems.UI
 {
 	public class MainMenuSystem : BaseUIWindowSystem<UIMainMenuWindow>
 	{
-		private EcsWorldInject _world;
+		[Inject]
+		public MainMenuSystem(IUIService uiService) : base(uiService) { }
 
 		protected override void OnShow(UIMainMenuWindow window, int entity)
 		{

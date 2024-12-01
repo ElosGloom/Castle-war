@@ -6,8 +6,13 @@ namespace ECS.Systems.UI
 {
 	public abstract class BaseUIWindowSystem<T> : IEcsRunSystem, IEcsInitSystem where T : UIWindow
 	{
+		private readonly IUIService _uiService;
 		private EcsFilter _filter;
 
+		protected BaseUIWindowSystem(IUIService uiService)
+		{
+			_uiService = uiService;
+		}
 
 		public void Init(IEcsSystems systems)
 		{
@@ -25,7 +30,7 @@ namespace ECS.Systems.UI
 
 		private async UniTaskVoid ShowWindow(int entity)
 		{
-			var window = await UIService.Show<T>();
+			var window = await _uiService.Show<T>();
 			OnShow(window, entity);
 		}
 

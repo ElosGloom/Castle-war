@@ -1,40 +1,35 @@
 using Commands;
-using Common;
 using ECS.FSM;
 using FPS;
-using FPS.Sheets;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
-using Network;
-using UnityEngine;
+using VContainer;
 
 namespace ECS.Systems
 {
 	public class AppInitState : IEcsSystem, IStateEnter
 	{
-		private readonly EcsWorldInject _world;
-		private readonly EcsCustomInject<DTOStorage> _dtoStorage;
-		private readonly EcsCustomInject<User> _user;
-		private readonly EcsCustomInject<ApiService> _apiService;
-
-
+		private readonly IObjectResolver _resolver;
+		
 		public AppState TargetState => AppState.Init;
+
+
+		[Inject]
+		public AppInitState(IObjectResolver resolver)
+		{
+			_resolver = resolver;
+		}
 
 		public void Enter()
 		{
-			new GameObject(nameof(RuntimeDispatcher)).AddComponent<RuntimeDispatcher>().Init();
+			var queue = _resolver.Resolve<CommandQueue>();
+			_resolver.Resolve<BaseInitializationCommands>().Insert(queue);
 
-			var queue = new CommandQueue();
-			BaseCommands.Insert(queue);
-			SheetCommands.Insert(queue, _dtoStorage.Value);
-
-
-			//add other commands
-			queue.Enqueue(new LoadLocalDataCommand(_dtoStorage.Value, _user.Value));
-			queue.Enqueue(new LoginCommand(_apiService.Value, _world.Value, _user.Value));
+			
+			queue.Enqueue(_resolver.Resolve<LoadLocalDataCommand>());
+			queue.Enqueue(_resolver.Resolve<LoginCommand>());
 
 
-			queue.Enqueue(new HideLoaderCommand(queue));
+			queue.Enqueue(_resolver.Resolve<HideLoaderCommand>().WithParams(queue));
 			queue.Execute().Forget();
 		}
 	}

@@ -1,17 +1,28 @@
 ﻿using Common;
 using Cysharp.Threading.Tasks;
 using ECS.FSM;
-using Leopotam.EcsLite.Di;
+using FPS.UI;
+using Leopotam.EcsLite;
 using Network;
 using UI;
+using VContainer;
 
 namespace ECS.Systems.UI
 {
 	public class LoginUISystem : BaseUIWindowSystem<UILoginWindow>
 	{
-		private EcsCustomInject<User> _user;
-		private EcsCustomInject<ApiService> _apiService;
-		private EcsWorldInject _world;
+		private readonly User _user;
+		private readonly EcsWorld _world;
+		private readonly ApiService _apiService;
+
+		[Inject]
+		public LoginUISystem(IUIService uiService, User user, ApiService apiService,
+			EcsWorld world) : base(uiService)
+		{
+			_user = user;
+			_world = world;
+			_apiService = apiService;
+		}
 
 
 		protected override void OnShow(UILoginWindow window, int entity)
@@ -19,7 +30,7 @@ namespace ECS.Systems.UI
 			window.ButtonsProvider.Subscribe("Close", () =>
 			{
 				AppStateMachine.SetState(AppState.MainMenu);
-				UIHelper.HideWindow<UILoginWindow>(_world.Value);
+				UIHelper.HideWindow<UILoginWindow>(_world);
 			});
 
 			window.ButtonsProvider.Subscribe("Login", () =>
@@ -31,13 +42,13 @@ namespace ECS.Systems.UI
 
 		private async UniTaskVoid TryLogin(string userName, string password)
 		{
-			var result = await _apiService.Value.Login(userName, password);
+			var result = await _apiService.Login(userName, password);
 			HandleResponse(result).Forget();
 		}
 
 		private async UniTaskVoid TrySignUp(string userName, string password)
 		{
-			var result = await _apiService.Value.Register(userName, password);
+			var result = await _apiService.Register(userName, password);
 			HandleResponse(result).Forget();
 		}
 
@@ -45,9 +56,9 @@ namespace ECS.Systems.UI
 		{
 			if (result.IsSuccess)
 			{
-				await _apiService.Value.SyncUserData(_user.Value);
+				await _apiService.SyncUserData(_user);
 				AppStateMachine.SetState(AppState.MainMenu);
-				UIHelper.HideWindow<UILoginWindow>(_world.Value);
+				UIHelper.HideWindow<UILoginWindow>(_world);
 			}
 		}
 	}
