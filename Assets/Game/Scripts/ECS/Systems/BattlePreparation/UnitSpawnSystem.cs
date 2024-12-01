@@ -1,22 +1,26 @@
 ﻿using Common;
 using ECS.Monobehaviours;
+using FPS.Pool;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UniRx;
+using VContainer;
 
 namespace ECS.Systems
 {
-    public class UnitSpawnSystem : IEcsRunSystem, IEcsInitSystem
+    public class UnitSpawnSystem : IEcsRunSystem
     {
-        private EcsWorld _ecsWorld;
-        private EcsCustomInject<User> _user;
-        private EcsCustomInject<RuntimeData> _runtimeData;
+        private readonly EcsWorld _ecsWorld;
+        private readonly RuntimeData _runtimeData;
+        private readonly IObjectPool _objectPool;
         private EcsFilter _filter;
         private string _selectedUnitName;
 
-        public void Init(IEcsSystems systems)
+        [Inject]
+        public UnitSpawnSystem(EcsWorld ecsWorld, RuntimeData runtimeData, IObjectPool objectPool)
         {
-            _ecsWorld = systems.GetWorld();
+            _ecsWorld = ecsWorld;
+            _runtimeData = runtimeData;
+            _objectPool = objectPool;
         }
 
         public void Run(IEcsSystems systems)
@@ -29,17 +33,16 @@ namespace ECS.Systems
 
                 EcsPool<UnitSpawnRequest> pool2 = _ecsWorld.GetPool<UnitSpawnRequest>();
 
-                var unit = FPS.Pool.FluffyPool.Get<UnitView>(_selectedUnitName);
+                var unit = _objectPool.Get<UnitView>(_selectedUnitName);
                 unit.transform.position = pool2.Get(unitsEntity).Position;
                 unitComponent.UnitView = unit;
 
-                _runtimeData.Value.SpawnedUnits.Push(unit);
+                _runtimeData.SpawnedUnits.Push(unit);
                 pool2.Del(unitsEntity);
-                _runtimeData.Value.DeleteAvailableUnit(_selectedUnitName);
-               
+                _runtimeData.DeleteAvailableUnit(_selectedUnitName);
             }
 
-            _runtimeData.Value.SelectedUnitsKey.Subscribe(key => { _selectedUnitName = key; });
+            _runtimeData.SelectedUnitsKey.Subscribe(key => { _selectedUnitName = key; });
         }
     }
 }

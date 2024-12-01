@@ -2,23 +2,32 @@
 using FPS.Pool;
 using FPS.UI;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UI;
 using UniRx;
+using VContainer;
 
 namespace ECS.Systems.UI
 {
     public class BattlePreparationUISystem : BaseUIWindowSystem<UIBattlePreparationWindow>
     {
         private EcsFilter _filter;
-        private EcsWorldInject _world;
-        private EcsCustomInject<User> _user;
-        private EcsCustomInject<RuntimeData> _runtimeData;
+        private readonly RuntimeData _runtimeData;
+        private readonly EcsWorld _world;
+        private readonly IObjectPool _objectPool;
+
+        [Inject]
+        public BattlePreparationUISystem(IUIService uiService,
+            EcsWorld world, RuntimeData runtimeData, IObjectPool objectPool) : base(uiService)
+        {
+            _world = world;
+            _runtimeData = runtimeData;
+            _objectPool = objectPool;
+        }
 
 
         protected override void OnShow(UIBattlePreparationWindow window, int entity)
         {
-            var availableUnits = _runtimeData.Value.AvailableUnits;
+            var availableUnits = _runtimeData.AvailableUnits;
 
             foreach (var counter in window.counters)
             {
@@ -30,34 +39,34 @@ namespace ECS.Systems.UI
 
             window.ButtonsProvider.Subscribe("RestartDrawing", () =>
             {
-                EcsPool<UnitComponent> pool = _world.Value.GetPool<UnitComponent>();
-                _filter = _world.Value.Filter<UnitComponent>().End();
+                EcsPool<UnitComponent> pool = _world.GetPool<UnitComponent>();
+                _filter = _world.Filter<UnitComponent>().End();
 
                 foreach (var unitsEntity in _filter)
                 {
                     ref UnitComponent unitComponent = ref pool.Get(unitsEntity);
-                    FluffyPool.Return(unitComponent.UnitView);
+                    _objectPool.Return(unitComponent.UnitView);
                     pool.Del(unitsEntity);
-                    _runtimeData.Value.AddAvailableUnit(_runtimeData.Value.SpawnedUnits.Peek().type);
-                    _runtimeData.Value.SpawnedUnits.Pop();
+                    _runtimeData.AddAvailableUnit(_runtimeData.SpawnedUnits.Peek().type);
+                    _runtimeData.SpawnedUnits.Pop();
                 }
             });
 
             window.ButtonsProvider.Subscribe("ReturnUnit", () =>
             {
-                EcsPool<UnitComponent> pool = _world.Value.GetPool<UnitComponent>();
-                _filter = _world.Value.Filter<UnitComponent>().End();
+                EcsPool<UnitComponent> pool = _world.GetPool<UnitComponent>();
+                _filter = _world.Filter<UnitComponent>().End();
 
                 foreach (var unitsEntity in _filter)
                 {
                     ref UnitComponent unitComponent = ref pool.Get(unitsEntity);
-                    if (_runtimeData.Value.SpawnedUnits.Peek() == unitComponent.UnitView)
+                    if (_runtimeData.SpawnedUnits.Peek() == unitComponent.UnitView)
                     {
-                        FluffyPool.Return(unitComponent.UnitView);
+                        _objectPool.Return(unitComponent.UnitView);
                         pool.Del(unitsEntity);
 
-                        _runtimeData.Value.AddAvailableUnit(_runtimeData.Value.SpawnedUnits.Peek().type);
-                        _runtimeData.Value.SpawnedUnits.Pop();
+                        _runtimeData.AddAvailableUnit(_runtimeData.SpawnedUnits.Peek().type);
+                        _runtimeData.SpawnedUnits.Pop();
                     }
                 }
             });
@@ -75,7 +84,7 @@ namespace ECS.Systems.UI
 
         private void OnClick(string s)
         {
-            _runtimeData.Value.SelectedUnitsKey.Value = s;
+            _runtimeData.SelectedUnitsKey.Value = s;
         }
     }
 }

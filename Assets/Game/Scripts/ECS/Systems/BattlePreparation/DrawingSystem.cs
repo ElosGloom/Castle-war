@@ -1,24 +1,29 @@
 ﻿using Common;
 using Game.Scripts.PreBattle;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
 namespace ECS.Systems
 {
     public class DrawingSystem : IEcsRunSystem, IEcsInitSystem
     {
-        private EcsWorld _ecsWorld;
-        private EcsCustomInject<User> _user;
-        private EcsCustomInject<RuntimeData> _runtimeData;
+        private readonly EcsWorld _ecsWorld;
+        private readonly RuntimeData _runtimeData;
         private Camera _camera;
         private float _spawnDelay = 0.05f;
         private float _lastSpawnTime = 0f;
 
+        [Inject]
+        public DrawingSystem(EcsWorld ecsWorld, RuntimeData runtimeData)
+        {
+            _ecsWorld = ecsWorld;
+            _runtimeData = runtimeData;
+        }
+
         public void Init(IEcsSystems systems)
         {
-            _ecsWorld = systems.GetWorld();
             _camera = Camera.main;
         }
 
@@ -38,9 +43,9 @@ namespace ECS.Systems
 
             if (!hit.collider.gameObject.GetComponent<SpawnZone>()) return;
 
-            if (_runtimeData.Value.SelectedUnitsKey.Value == null) return;
+            if (_runtimeData.SelectedUnitsKey.Value == null) return;
             
-            _runtimeData.Value.AvailableUnits.TryGetValue(_runtimeData.Value.SelectedUnitsKey.Value, out int value);
+            _runtimeData.AvailableUnits.TryGetValue(_runtimeData.SelectedUnitsKey.Value, out int value);
             if (value <= 0) return;
 
             var newUnit = _ecsWorld.NewEntity();
