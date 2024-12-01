@@ -2,7 +2,6 @@ using FPS;
 using FPS.UI;
 using FPS.UI.Buttons;
 using FPS.UI.Buttons.Generic;
-using TMPro;
 using UniRx;
 using UnityEngine;
 
@@ -10,9 +9,7 @@ namespace UI
 {
     public class UIBattlePreparationWindow : UIWindow
     {
-        public TMP_Text meleeUnitsCount;
-        public TMP_Text rangeUnitsCount;
-
+        public SerializableDictionary<string,UIUnitsCounter> counters;
         [SerializeField, Get] private ButtonsProvider buttonsProvider;
         [SerializeField, Get] private StringButtonsProvider stringButtonsProvider;
 

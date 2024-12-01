@@ -1,13 +1,8 @@
 ﻿using Common;
 using ECS.Monobehaviours;
-using FPS.UI;
-using Game.Scripts.PreBattle;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using UI;
 using UniRx;
-using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace ECS.Systems
 {
@@ -22,8 +17,6 @@ namespace ECS.Systems
         public void Init(IEcsSystems systems)
         {
             _ecsWorld = systems.GetWorld();
-            _runtimeData.Value.AvailableMeleeUnits = new(_user.Value.Inventory["melee"]);
-            _runtimeData.Value.AvailableRangeUnits = new(_user.Value.Inventory["range"]);
         }
 
         public void Run(IEcsSystems systems)
@@ -42,15 +35,8 @@ namespace ECS.Systems
 
                 _runtimeData.Value.SpawnedUnits.Push(unit);
                 pool2.Del(unitsEntity);
-                
-                if (_selectedUnitName == "melee")
-                {
-                    _runtimeData.Value.AvailableMeleeUnits.Value--;
-                }
-                else if (_selectedUnitName == "range")
-                {
-                    _runtimeData.Value.AvailableRangeUnits.Value--;
-                }
+                _runtimeData.Value.DeleteAvailableUnit(_selectedUnitName);
+               
             }
 
             _runtimeData.Value.SelectedUnitsKey.Subscribe(key => { _selectedUnitName = key; });

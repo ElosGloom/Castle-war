@@ -1,5 +1,4 @@
 ﻿using Common;
-using ECS.Monobehaviours;
 using Game.Scripts.PreBattle;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -39,7 +38,10 @@ namespace ECS.Systems
 
             if (!hit.collider.gameObject.GetComponent<SpawnZone>()) return;
 
-            if (_runtimeData.Value.AvailableMeleeUnits.Value <= 0) return;
+            if (_runtimeData.Value.SelectedUnitsKey.Value == null) return;
+            
+            _runtimeData.Value.AvailableUnits.TryGetValue(_runtimeData.Value.SelectedUnitsKey.Value, out int value);
+            if (value <= 0) return;
 
             var newUnit = _ecsWorld.NewEntity();
             EcsPool<UnitSpawnRequest> pool = _ecsWorld.GetPool<UnitSpawnRequest>();

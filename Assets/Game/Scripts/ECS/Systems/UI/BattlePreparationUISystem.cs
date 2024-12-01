@@ -1,5 +1,6 @@
 ﻿using Common;
 using FPS.Pool;
+using FPS.UI;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UI;
@@ -13,19 +14,19 @@ namespace ECS.Systems.UI
         private EcsWorldInject _world;
         private EcsCustomInject<User> _user;
         private EcsCustomInject<RuntimeData> _runtimeData;
-        
-        
+
+
         protected override void OnShow(UIBattlePreparationWindow window, int entity)
         {
-            _runtimeData.Value.AvailableMeleeUnits.Subscribe(count =>
+            var availableUnits = _runtimeData.Value.AvailableUnits;
+
+            foreach (var counter in window.counters)
             {
-                window.meleeUnitsCount.text = count.ToString();
-            }).AddTo(window.Disposable);
-            
-            _runtimeData.Value.AvailableRangeUnits.Subscribe(count =>
-            {
-                window.rangeUnitsCount.text = count.ToString();
-            }).AddTo(window.Disposable);
+                availableUnits.TryGetValue(counter.Key, out int value);
+                UpdateCounter(new DictionaryReplaceEvent<string, int>(counter.Key, value, value));
+            }
+
+            availableUnits.ObserveReplace().Subscribe(UpdateCounter).AddTo(window.Disposable);
 
             window.ButtonsProvider.Subscribe("RestartDrawing", () =>
             {
@@ -37,7 +38,7 @@ namespace ECS.Systems.UI
                     ref UnitComponent unitComponent = ref pool.Get(unitsEntity);
                     FluffyPool.Return(unitComponent.UnitView);
                     pool.Del(unitsEntity);
-                    _runtimeData.Value.AvailableMeleeUnits.Value++;
+                    _runtimeData.Value.AddAvailableUnit(_runtimeData.Value.SpawnedUnits.Peek().type);
                     _runtimeData.Value.SpawnedUnits.Pop();
                 }
             });
@@ -50,22 +51,31 @@ namespace ECS.Systems.UI
                 foreach (var unitsEntity in _filter)
                 {
                     ref UnitComponent unitComponent = ref pool.Get(unitsEntity);
-                    if ( _runtimeData.Value.SpawnedUnits.Peek()==unitComponent.UnitView)
+                    if (_runtimeData.Value.SpawnedUnits.Peek() == unitComponent.UnitView)
                     {
                         FluffyPool.Return(unitComponent.UnitView);
                         pool.Del(unitsEntity);
-                        _runtimeData.Value.AvailableMeleeUnits.Value++;
+
+                        _runtimeData.Value.AddAvailableUnit(_runtimeData.Value.SpawnedUnits.Peek().type);
                         _runtimeData.Value.SpawnedUnits.Pop();
                     }
                 }
             });
-            
-             window.StringButtonsProvider.Subscribe(OnClick);
+
+            window.StringButtonsProvider.Subscribe(OnClick);
+            return;
+
+            void UpdateCounter(DictionaryReplaceEvent<string, int> replaceProtocol)
+            {
+                if (window.counters.TryGetValue(replaceProtocol.Key, out var value))
+                    value.unitsCount.text = replaceProtocol.NewValue.ToString();
+            }
         }
+
+
         private void OnClick(string s)
         {
-               
-            _runtimeData.Value.SelectedUnitsKey.Value = s; 
+            _runtimeData.Value.SelectedUnitsKey.Value = s;
         }
     }
 }

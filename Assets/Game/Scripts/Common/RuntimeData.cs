@@ -6,9 +6,22 @@ namespace Common
 {
     public class RuntimeData
     {
-        public ReactiveProperty<int> AvailableMeleeUnits;
-        public ReactiveProperty<int> AvailableRangeUnits;
-        public readonly ReactiveProperty<string> SelectedUnitsKey = new ();
-        public Stack<UnitView> SpawnedUnits = new();
+        public ReactiveDictionary<string, int> AvailableUnits = new();
+        public readonly ReactiveProperty<string> SelectedUnitsKey = new();
+        public readonly Stack<UnitView> SpawnedUnits = new();
+
+        public void AddAvailableUnit(string unitKey)
+        {
+            AvailableUnits[unitKey]++;
+        }
+
+        public void DeleteAvailableUnit(string unitKey)
+        {
+            AvailableUnits.TryGetValue(unitKey, out int value);
+            if (value >= 0)
+            {
+                AvailableUnits[unitKey]--;
+            }
+        }
     }
 }
