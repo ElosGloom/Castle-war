@@ -3,6 +3,7 @@ using DTO;
 using FPS;
 using FPS.Sheets;
 using UnityEngine;
+using VContainer;
 
 namespace Commands
 {
@@ -11,6 +12,7 @@ namespace Commands
 		private readonly DTOStorage _dtoStorage;
 		private readonly User _user;
 
+		[Inject]
 		public LoadLocalDataCommand(DTOStorage dtoStorage, User user)
 		{
 			_dtoStorage = dtoStorage;

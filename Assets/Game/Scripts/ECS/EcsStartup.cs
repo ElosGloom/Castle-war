@@ -1,22 +1,38 @@
+using System;
 using Common;
 using ECS.FSM;
 using ECS.Systems;
 using ECS.Systems.UI;
-using FPS.Sheets;
+using FPS;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using Network;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 namespace ECS
 {
 	public class EcsStartup : MonoBehaviour
 	{
 		private EcsSystems _systems;
+		[SerializeField, Get] private LifetimeScope scope;
 
 		public void Start()
 		{
-			var world = new EcsWorld();
+			scope.CreateChild(builder =>
+			{
+				builder.Register<RuntimeData>(Lifetime.Singleton);
+				builder.Register<User>(Lifetime.Singleton);
+				builder.Register<ApiService>(Lifetime.Singleton);
+				builder.RegisterInstance<EcsWorld>(new());
+				builder.RegisterBuildCallback(InitSystems);
+			});
+		}
+
+		private void InitSystems(IObjectResolver resolver)
+		{
+			var world = resolver.Resolve<EcsWorld>();
+
 			_systems = new EcsSystems(world);
 			_systems
 
@@ -31,26 +47,26 @@ namespace ECS
 
 				#region States
 
-				.Add(new AppInitState())
-				.Add(new MainMenuState())
-				.Add(new PreBattleState())
-				.Add(new AppStateMachine())
+				.Add(NewSystem<AppInitState>())
+				.Add(NewSystem<MainMenuState>())
+				.Add(NewSystem<PreBattleState>())
+				.Add(NewSystem<AppStateMachine>()) //todo: inject
 
 				#endregion
 
 				#region UI
 
-				.Add(new CloseWindowSystem())
-				.Add(new MainMenuSystem())
-				.Add(new LoginUISystem())
-				.Add(new BattlePreparationUISystem())
+				.Add(NewSystem<CloseWindowSystem>())
+				.Add(NewSystem<MainMenuSystem>())
+				.Add(NewSystem<LoginUISystem>())
+				.Add(NewSystem<BattlePreparationUISystem>())
 
 				#endregion
 
 				#region PreBattle
 
-				.Add(new DrawingSystem())
-				.Add(new UnitSpawnSystem())
+				.Add(NewSystem<DrawingSystem>())
+				.Add(NewSystem<UnitSpawnSystem>())
 
 				#endregion
 
@@ -58,15 +74,19 @@ namespace ECS
 
 				#endregion
 
-				// .Add(new ApiTestSystem())
-				.Add(new SaveSystem())
-				.Inject(
-					new RuntimeData(),
-					new User(),
-					new DTOStorage(),
-					new ApiService())
+				.Add(NewSystem<SaveSystem>())
 				.Init();
+
+			return;
+
+			T NewSystem<T>() where T : IEcsSystem
+			{
+				return resolver.TryResolve<T>(out var resolved)
+					? resolved
+					: Activator.CreateInstance<T>();
+			}
 		}
+
 
 		private void Update()
 		{

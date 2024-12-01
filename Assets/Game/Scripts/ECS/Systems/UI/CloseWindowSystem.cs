@@ -1,23 +1,36 @@
 using FPS.UI;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
+using VContainer;
 
 namespace ECS.Systems.UI
 {
-	public class CloseWindowSystem : IEcsRunSystem
+	public class CloseWindowSystem : IEcsRunSystem, IEcsInitSystem
 	{
-		private EcsFilterInject<Inc<WindowComponent, CloseWindowRequest>> _filter;
+		private readonly IUIService _uiService;
+		private EcsFilter _filter;
+
+		[Inject]
+		public CloseWindowSystem(IUIService uiService)
+		{
+			_uiService = uiService;
+		}
 
 		public void Run(IEcsSystems systems)
 		{
-			foreach (var entity in _filter.Value)
+			foreach (var entity in _filter)
 			{
-				ref var windowComponent = ref _filter.Pools.Inc1.Get(entity);
+				var pool = systems.GetWorld().GetPool<WindowComponent>();
+				ref var windowComponent = ref pool.Get(entity);
 				windowComponent.WindowCloseCallback?.Invoke();
-				UIService.Hide(windowComponent.WindowType);
+				_uiService.Hide(windowComponent.WindowType);
 
 				systems.GetWorld().DelEntity(entity);
 			}
+		}
+
+		public void Init(IEcsSystems systems)
+		{
+			_filter = systems.GetWorld().Filter<WindowComponent>().Inc<CloseWindowRequest>().End();
 		}
 	}
 }
