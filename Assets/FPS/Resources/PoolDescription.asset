@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: PoolDescription
   m_EditorClassIdentifier: 
   poolables:
-  - <Prefab>k__BackingField: {fileID: 736130393353601283, guid: e2afde5727309594c8e100610bcf4744, type: 3}
+  - <Prefab>k__BackingField: {fileID: 1913394795850583420, guid: 18f9066c8ed323645b2ca8f10054fba0, type: 3}
     <Count>k__BackingField: 1
     <Key>k__BackingField: melee
     <PrewarmType>k__BackingField: 0
   - <Prefab>k__BackingField: {fileID: 5774273953848782403, guid: e186b0d75b499764bb057d8c17611499, type: 3}
     <Count>k__BackingField: 1
     <Key>k__BackingField: enemyMelee
+    <PrewarmType>k__BackingField: 0
+  - <Prefab>k__BackingField: {fileID: 1913394795850583420, guid: 90d297c3b33777a48ae712fe069ee679, type: 3}
+    <Count>k__BackingField: 1
+    <Key>k__BackingField: range
     <PrewarmType>k__BackingField: 0
   renamePoolables: 0

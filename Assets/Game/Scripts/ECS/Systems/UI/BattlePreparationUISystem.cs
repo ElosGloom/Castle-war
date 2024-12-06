@@ -11,25 +11,31 @@ namespace ECS.Systems.UI
     public class BattlePreparationUISystem : BaseUIWindowSystem<UIBattlePreparationWindow>
     {
         private EcsFilter _filter;
-        private readonly EcsWorld _world;
-        private readonly IObjectPool _pool;
         private readonly RuntimeData _runtimeData;
+        private readonly EcsWorld _world;
+        private readonly IObjectPool _objectPool;
 
         [Inject]
-        public BattlePreparationUISystem(IUIService uiService, EcsWorld world,
-            RuntimeData runtimeData, IObjectPool pool) : base(uiService)
+        public BattlePreparationUISystem(IUIService uiService,
+            EcsWorld world, RuntimeData runtimeData, IObjectPool objectPool) : base(uiService)
         {
             _world = world;
             _runtimeData = runtimeData;
-            _pool = pool;
+            _objectPool = objectPool;
         }
+
 
         protected override void OnShow(UIBattlePreparationWindow window, int entity)
         {
-            _runtimeData.AvailableMeleeUnits.Subscribe(count =>
+            var availableUnits = _runtimeData.AvailableUnits;
+
+            foreach (var counter in window.counters)
             {
-                window.meleeUnitsCount.text = count.ToString();
-            }).AddTo(window.Disposable);
+                availableUnits.TryGetValue(counter.Key, out int value);
+                UpdateCounter(new DictionaryReplaceEvent<string, int>(counter.Key, value, value));
+            }
+
+            availableUnits.ObserveReplace().Subscribe(UpdateCounter).AddTo(window.Disposable);
 
             window.ButtonsProvider.Subscribe("RestartDrawing", () =>
             {
@@ -39,9 +45,9 @@ namespace ECS.Systems.UI
                 foreach (var unitsEntity in _filter)
                 {
                     ref UnitComponent unitComponent = ref pool.Get(unitsEntity);
-                    _pool.Return(unitComponent.UnitView);
+                    _objectPool.Return(unitComponent.UnitView);
                     pool.Del(unitsEntity);
-                    _runtimeData.AvailableMeleeUnits.Value++;
+                    _runtimeData.AddAvailableUnit(_runtimeData.SpawnedUnits.Peek().type);
                     _runtimeData.SpawnedUnits.Pop();
                 }
             });
@@ -54,15 +60,31 @@ namespace ECS.Systems.UI
                 foreach (var unitsEntity in _filter)
                 {
                     ref UnitComponent unitComponent = ref pool.Get(unitsEntity);
-                    if ( _runtimeData.SpawnedUnits.Peek()==unitComponent.UnitView)
+                    if (_runtimeData.SpawnedUnits.Peek() == unitComponent.UnitView)
                     {
-                        _pool.Return(unitComponent.UnitView);
+                        _objectPool.Return(unitComponent.UnitView);
                         pool.Del(unitsEntity);
-                        _runtimeData.AvailableMeleeUnits.Value++;
+
+                        _runtimeData.AddAvailableUnit(_runtimeData.SpawnedUnits.Peek().type);
                         _runtimeData.SpawnedUnits.Pop();
                     }
                 }
             });
+
+            window.StringButtonsProvider.Subscribe(OnClick);
+            return;
+
+            void UpdateCounter(DictionaryReplaceEvent<string, int> replaceProtocol)
+            {
+                if (window.counters.TryGetValue(replaceProtocol.Key, out var value))
+                    value.unitsCount.text = replaceProtocol.NewValue.ToString();
+            }
+        }
+
+
+        private void OnClick(string s)
+        {
+            _runtimeData.SelectedUnitsKey.Value = s;
         }
     }
 }

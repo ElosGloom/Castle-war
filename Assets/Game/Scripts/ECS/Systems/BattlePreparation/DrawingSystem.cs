@@ -9,8 +9,8 @@ namespace ECS.Systems
 {
     public class DrawingSystem : IEcsRunSystem, IEcsInitSystem
     {
-        private EcsWorld _ecsWorld;
-        private RuntimeData _runtimeData;
+        private readonly EcsWorld _ecsWorld;
+        private readonly RuntimeData _runtimeData;
         private Camera _camera;
         private float _spawnDelay = 0.05f;
         private float _lastSpawnTime = 0f;
@@ -24,7 +24,6 @@ namespace ECS.Systems
 
         public void Init(IEcsSystems systems)
         {
-            _ecsWorld = systems.GetWorld();
             _camera = Camera.main;
         }
 
@@ -44,7 +43,10 @@ namespace ECS.Systems
 
             if (!hit.collider.gameObject.GetComponent<SpawnZone>()) return;
 
-            if (_runtimeData.AvailableMeleeUnits.Value <= 0) return;
+            if (_runtimeData.SelectedUnitsKey.Value == null) return;
+            
+            _runtimeData.AvailableUnits.TryGetValue(_runtimeData.SelectedUnitsKey.Value, out int value);
+            if (value <= 0) return;
 
             var newUnit = _ecsWorld.NewEntity();
             EcsPool<UnitSpawnRequest> pool = _ecsWorld.GetPool<UnitSpawnRequest>();
