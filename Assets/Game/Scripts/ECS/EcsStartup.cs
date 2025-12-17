@@ -14,16 +14,17 @@ namespace ECS
 {
 	public class EcsStartup : MonoBehaviour
 	{
+		[SerializeField, Get] private LifetimeScope _scope;
 		private EcsSystems _systems;
-		[SerializeField, Get] private LifetimeScope scope;
 
 		public void Start()
 		{
-			scope.CreateChild(builder =>
+			_scope.CreateChild(builder =>
 			{
 				builder.Register<RuntimeData>(Lifetime.Singleton);
 				builder.Register<User>(Lifetime.Singleton);
 				builder.Register<ApiService>(Lifetime.Singleton);
+				builder.Register<AppStateMachine>(Lifetime.Singleton).As<IAppStateMachine>();
 				builder.RegisterInstance<EcsWorld>(new());
 				builder.RegisterBuildCallback(InitSystems);
 			});
@@ -48,18 +49,23 @@ namespace ECS
 				#region States
 
 				.Add(NewSystem<AppInitState>())
-				.Add(NewSystem<MainMenuState>())
+				.Add(NewSystem<HubState>())
 				.Add(NewSystem<PreBattleState>())
-				.Add(NewSystem<AppStateMachine>()) //todo: inject
+				.Add(NewSystem<HubBuilder>())
+				.Add(NewSystem<IAppStateMachine>())
 
 				#endregion
 
 				#region UI
 
 				.Add(NewSystem<CloseWindowSystem>())
-				.Add(NewSystem<MainMenuSystem>())
+				.Add(NewSystem<HubUISystem>())
 				.Add(NewSystem<LoginUISystem>())
 				.Add(NewSystem<BattlePreparationUISystem>())
+
+				#endregion
+
+				#region Hub
 
 				#endregion
 

@@ -13,7 +13,9 @@ namespace Common
 		{
 			get
 			{
-				_container.TryAdd(key, default);
+				if (!_container.ContainsKey(key))
+					_container.Add(key, default);
+
 				return _container[key];
 			}
 			set

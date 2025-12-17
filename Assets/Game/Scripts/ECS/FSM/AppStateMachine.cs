@@ -4,10 +4,15 @@ using Leopotam.EcsLite;
 
 namespace ECS.FSM
 {
-	public class AppStateMachine : IEcsRunSystem, IEcsInitSystem
+	public interface IAppStateMachine : IEcsSystem
 	{
-		private static AppState _currentState;
-		private static readonly Dictionary<AppState, StateHandlers> States = new();
+		void SetState(AppState targetState);
+	}
+
+	public class AppStateMachine : IEcsRunSystem, IEcsInitSystem, IAppStateMachine
+	{
+		private AppState _currentState;
+		private readonly Dictionary<AppState, StateHandlers> _states = new();
 
 
 		public void Init(IEcsSystems systems)
@@ -24,23 +29,23 @@ namespace ECS.FSM
 
 			foreach (var kvp in builders)
 			{
-				States.TryAdd(kvp.Key, new(kvp.Value));
+				_states.TryAdd(kvp.Key, new(kvp.Value));
 			}
 
 			_currentState = AppState.Init;
-			States[_currentState].Enter();
+			_states[_currentState].Enter();
 		}
 
 		public void Run(IEcsSystems systems)
 		{
-			States[_currentState].Update();
+			_states[_currentState].Update();
 		}
 
-		public static void SetState(AppState targetState)
+		public void SetState(AppState targetState)
 		{
-			States[_currentState].Exit();
+			_states[_currentState].Exit();
 			_currentState = targetState;
-			States[_currentState].Enter();
+			_states[_currentState].Enter();
 		}
 
 		private class HandlersBuilder

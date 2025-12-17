@@ -20,16 +20,14 @@ namespace Game.Scripts.Editor
                 var unitTransform = enemyUnit.transform;
                 enemyUnit.position = unitTransform.position;
                 enemyUnit.rotation = unitTransform.rotation.eulerAngles;
-                var unitDTO = new UnitDTO(enemyUnit.position,enemyUnit.rotation,enemyUnit.type);
+                var unitDTO = new UnitDTO(enemyUnit.position, enemyUnit.rotation, enemyUnit.type);
                 _unitsList.Add(unitDTO);
             }
-            
+
             var converter = new Vector3Converter();
-            var str =JsonConvert.SerializeObject(_unitsList,converter);
+            var str = JsonConvert.SerializeObject(_unitsList, converter);
             EditorGUIUtility.systemCopyBuffer = str;
             _unitsList.Clear();
-            
         }
-
     }
 }

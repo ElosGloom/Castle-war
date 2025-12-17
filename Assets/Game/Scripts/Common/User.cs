@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Converters;
 using DTO;
 using FPS;
@@ -10,6 +11,7 @@ namespace Common
 	{
 		public float Playtime;
 		[JsonProperty] public readonly Inventory Inventory = new();
+		// [JsonProperty] public readonly Dictionary<string, TimeSpan> Progress = new();
 		[JsonProperty] public string Id { get; private set; }
 		[JsonProperty] public int CurrentLevel { get; private set; }
 
