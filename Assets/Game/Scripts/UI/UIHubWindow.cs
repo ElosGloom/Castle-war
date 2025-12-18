@@ -5,10 +5,12 @@ using UnityEngine;
 
 namespace UI
 {
-    public class UIHubWindow : UIWindow
-    {
-        [SerializeField, Get] private ButtonsProvider _buttonsProvider;
+	public class UIHubWindow : UIWindow
+	{
+		[SerializeField] private SerializableDictionary<string, UIInventoryCellView> _armyCells;
 
-        public IButtonsProvider ButtonsProvider => _buttonsProvider;
-    }
+		[SerializeField, Get] private ButtonsProvider _buttonsProvider;
+
+		public IButtonsProvider ButtonsProvider => _buttonsProvider;
+	}
 }

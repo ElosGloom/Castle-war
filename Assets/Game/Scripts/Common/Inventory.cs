@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 using Utils;
 
 namespace Common
 {
 	public class Inventory
 	{
-		public event Action<string, int> UpdateEvent;
-		private readonly Dictionary<string, int> _container = new();
+		private readonly ReactiveDictionary<string, int> _container = new();
 
 		public int this[string key]
 		{
@@ -23,7 +23,6 @@ namespace Common
 			{
 				_container.TryAdd(key, default);
 				_container[key] = value;
-				UpdateEvent?.Invoke(key, value);
 			}
 		}
 
@@ -35,9 +34,8 @@ namespace Common
 
 		public void Copy(Inventory source) => Copy(source._container);
 
-		public void Copy(Dictionary<string, int> source)
-		{
-			_container.ReplaceAll(source);
-		}
+		private void Copy(ReactiveDictionary<string, int> source) => _container.ReplaceAll(source);
+
+		public void Copy(Dictionary<string, int> source) => _container.ReplaceAll(source);
 	}
 }

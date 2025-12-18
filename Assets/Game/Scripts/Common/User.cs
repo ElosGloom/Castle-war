@@ -22,6 +22,7 @@ namespace Common
 		{
 			Id = Guid.NewGuid().ToString();
 			CurrentLevel = 1;
+			
 			Inventory.Copy(dto.Inventory);
 		}
 
