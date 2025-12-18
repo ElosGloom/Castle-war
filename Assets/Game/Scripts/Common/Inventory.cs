@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Utils;
 
 namespace Common
 {
@@ -13,7 +14,7 @@ namespace Common
 		{
 			get
 			{
-				if (!_container.ContainsKey(key))
+				if (!HasItem(key))
 					_container.Add(key, default);
 
 				return _container[key];
@@ -26,6 +27,8 @@ namespace Common
 			}
 		}
 
+		public bool HasItem(string key) => _container.ContainsKey(key);
+
 		public KeyValuePair<string, int>[] AllItems => _container.ToArray();
 
 		public void Clear() => _container.Clear();
@@ -34,11 +37,7 @@ namespace Common
 
 		public void Copy(Dictionary<string, int> source)
 		{
-			Clear();
-			foreach (var kvp in source)
-			{
-				this[kvp.Key] = source[kvp.Key];
-			}
+			_container.ReplaceAll(source);
 		}
 	}
 }
