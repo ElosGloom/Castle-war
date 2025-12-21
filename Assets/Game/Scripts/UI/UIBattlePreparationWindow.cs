@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using FPS;
 using FPS.UI;
 using FPS.UI.Buttons;
 using FPS.UI.Buttons.Generic;
-using UniRx;
+using ObservableCollections;
+using R3;
 using UnityEngine;
 
 namespace UI
@@ -19,16 +21,21 @@ namespace UI
 
 		private readonly CompositeDisposable _disposable = new();
 
-		public void BindArmy(ReactiveDictionary<string, int> army)
+		public void BindArmy(ObservableDictionary<string, int> army)
 		{
+			_disposable.ToObservable().Subscribe(_ => Debug.LogError(123));
 			//force update cells
-			army.ObserveReplace().Subscribe(UpdateCounter).AddTo(_disposable);
+			army.ObserveReplace().Subscribe(@event =>
+				UpdateCounter(@event.NewValue.Key, @event.NewValue.Value)).AddTo(_disposable);
+			
+			army.ObserveChanged().Subscribe(@event =>
+				UpdateCounter(@event.NewItem.Key, @event.NewItem.Value)).AddTo(_disposable);
 		}
 
-		void UpdateCounter(DictionaryReplaceEvent<string, int> replaceProtocol)
+		private void UpdateCounter(string key, int value)
 		{
-			if (_armyCells.TryGetValue(replaceProtocol.Key, out var value))
-				value.SetCount(replaceProtocol.NewValue.ToString());
+			if (_armyCells.TryGetValue(key, out var cell))
+				cell.SetCount(value.ToString());
 		}
 
 		protected override void AfterHide()

@@ -2,7 +2,6 @@
 using ECS.Monobehaviours;
 using FPS.Pool;
 using Leopotam.EcsLite;
-using UniRx;
 using VContainer;
 
 namespace ECS.Systems
@@ -33,16 +32,14 @@ namespace ECS.Systems
 
                 EcsPool<UnitSpawnRequest> pool2 = _ecsWorld.GetPool<UnitSpawnRequest>();
 
-                var unit = _objectPool.Get<UnitView>(_selectedUnitName);
+                var unit = _objectPool.Get<UnitView>(_runtimeData.SelectedUnitKey);
                 unit.transform.position = pool2.Get(unitsEntity).Position;
                 unitComponent.UnitView = unit;
 
                 _runtimeData.SpawnedUnits.Push(unit);
                 pool2.Del(unitsEntity);
-                _runtimeData.DeleteAvailableUnit(_selectedUnitName);
+                _runtimeData.DeleteAvailableUnit(_runtimeData.SelectedUnitKey);
             }
-
-            _runtimeData.SelectedUnitsKey.Subscribe(key => { _selectedUnitName = key; });
         }
     }
 }

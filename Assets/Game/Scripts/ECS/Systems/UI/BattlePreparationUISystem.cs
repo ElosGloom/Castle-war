@@ -3,7 +3,6 @@ using FPS.Pool;
 using FPS.UI;
 using Leopotam.EcsLite;
 using UI;
-using UniRx;
 using VContainer;
 
 namespace ECS.Systems.UI
@@ -72,7 +71,7 @@ namespace ECS.Systems.UI
 
 		private void OnClick(string s)
 		{
-			_runtimeData.SelectedUnitsKey.Value = s;
+			_runtimeData.SelectedUnitKey = s;
 		}
 	}
 }

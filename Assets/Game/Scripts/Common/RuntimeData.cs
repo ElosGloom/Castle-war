@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using ECS.Monobehaviours;
-using UniRx;
+using ObservableCollections;
 
 namespace Common
 {
 	public class RuntimeData
 	{
-		public ReactiveDictionary<string, int> AvailableUnits = new();
-		public readonly ReactiveProperty<string> SelectedUnitsKey = new();
+		public readonly ObservableDictionary<string, int> AvailableUnits = new();
 		public readonly Stack<UnitView> SpawnedUnits = new();
+		public string SelectedUnitKey;
 
 		public void AddAvailableUnit(string unitKey) => AvailableUnits[unitKey]++;
 

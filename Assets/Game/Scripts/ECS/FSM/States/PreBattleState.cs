@@ -34,11 +34,9 @@ namespace ECS.FSM
 
 		public void Enter()
 		{
-			_runtimeData.AvailableUnits = new()
-			{
-				{ "melee", _user.Inventory["melee"] },
-				{ "range", _user.Inventory["range"] }
-			};
+			_runtimeData.AvailableUnits.Add("melee", _user.Inventory["melee"]);
+			_runtimeData.AvailableUnits.Add("range", _user.Inventory["range"]);
+			
 			UIHelper.ShowWindow<UIBattlePreparationWindow>(_ecsWorld);
 			BattleFactory.SetupScene(_user.CurrentLevel);
 			SpawnEnemyUnits();
