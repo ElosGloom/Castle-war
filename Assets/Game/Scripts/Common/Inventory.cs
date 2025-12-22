@@ -1,35 +1,46 @@
 using System.Collections.Generic;
-using System.Linq;
-using ObservableCollections;
+using JetBrains.Collections.Viewable;
 using Utils;
 
 namespace Common
 {
 	public class Inventory
 	{
-		private readonly ObservableDictionary<string, int> _container = new();
+		public IViewableMap<string, int> AllItems => _container;
 
-		public int this[string key]
+		private readonly ViewableMap<string, int> _container = new();
+
+
+		public bool HasItem(string key, out int count)
 		{
-			get
-			{
-				if (!HasItem(key))
-					_container.Add(key, default);
-
-				return _container[key];
-			}
-			set
-			{
-				_container.TryAdd(key, default);
-				_container[key] = value;
-			}
+			var hasItem = _container.ContainsKey(key);
+			count = hasItem ? _container[key] : default;
+			return hasItem;
 		}
 
-		public bool HasItem(string key) => _container.ContainsKey(key);
+		public int GetItemCount(string key) => _container.TryGetValue(key, out int count) ? count : default;
 
-		public KeyValuePair<string, int>[] AllItems => _container.ToArray();
+		public void AddItem(string key, int count = 1)
+		{
+			_container.TryAdd(key, default);
+			_container[key] += count;
+		}
 
-		public void Clear() => _container.Clear();
+		public bool TryConsumeItem(string key, int count)
+		{
+			if (_container.ContainsKey(key))
+				return false;
+
+			if (_container[key] - count <= 0)
+				return false;
+
+			_container[key] -= count;
+
+			if (_container[key] == 0)
+				_container.Remove(key);
+
+			return true;
+		}
 
 		public void Copy(Inventory source) => Copy(source._container);
 		private void Copy(IDictionary<string, int> source) => _container.ReplaceAll(source);

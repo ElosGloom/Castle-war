@@ -7,10 +7,14 @@ namespace UI
 {
 	public class UIHubWindow : UIWindow
 	{
-		[SerializeField] private SerializableDictionary<string, UIInventoryCellView> _armyCells;
+		[SerializeField] private Transform _armyParent;
+		[SerializeField] private Transform _currencyParent;
 
 		[SerializeField, Get] private ButtonsProvider _buttonsProvider;
 
+
 		public IButtonsProvider ButtonsProvider => _buttonsProvider;
+		public Transform ArmyParent => _armyParent;
+		public Transform CurrencyParent => _currencyParent;
 	}
 }

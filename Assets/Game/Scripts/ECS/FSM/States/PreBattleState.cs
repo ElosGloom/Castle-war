@@ -11,14 +11,13 @@ using VContainer;
 
 namespace ECS.FSM
 {
-	public class PreBattleState : IEcsSystem, IStateEnter
+	public class PreBattleState : IEcsSystem, IStateEnter, IStateExit
 	{
 		private readonly EcsWorld _ecsWorld;
 		private readonly RuntimeData _runtimeData;
 		private readonly IObjectPool _objectPool;
 		private readonly DTOStorage _dtoStorage;
 		private readonly User _user;
-		private EcsFilter _filter;
 
 		[Inject]
 		public PreBattleState(EcsWorld ecsWorld, RuntimeData runtimeData, User user, IObjectPool objectPool, DTOStorage dtoStorage)
@@ -32,11 +31,17 @@ namespace ECS.FSM
 
 		public AppState TargetState => AppState.PreBattle;
 
+		public void Exit()
+		{
+			UIHelper.HideWindow<UIBattlePreparationWindow>(_ecsWorld);
+		}
+
 		public void Enter()
 		{
-			_runtimeData.AvailableUnits.Add("melee", _user.Inventory["melee"]);
-			_runtimeData.AvailableUnits.Add("range", _user.Inventory["range"]);
-			
+			//temp
+			// _runtimeData.DrawableUnits.Add("melee", _user.Inventory.GetItemCount("melee"));
+			// _runtimeData.DrawableUnits.Add("range", _user.Inventory.GetItemCount("range"));
+
 			UIHelper.ShowWindow<UIBattlePreparationWindow>(_ecsWorld);
 			BattleFactory.SetupScene(_user.CurrentLevel);
 			SpawnEnemyUnits();

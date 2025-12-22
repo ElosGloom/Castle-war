@@ -1,4 +1,5 @@
 ﻿using Common;
+using ECS.FSM;
 using FPS.Pool;
 using FPS.UI;
 using Leopotam.EcsLite;
@@ -13,24 +14,26 @@ namespace ECS.Systems.UI
 		private readonly RuntimeData _runtimeData;
 		private readonly EcsWorld _world;
 		private readonly IObjectPool _objectPool;
+		private readonly IAppStateMachine _stateMachine;
 
 		[Inject]
 		public BattlePreparationUISystem(IUIService uiService,
 			EcsWorld world,
 			RuntimeData runtimeData,
-			IObjectPool objectPool) : base(uiService)
+			IObjectPool objectPool,
+			IAppStateMachine stateMachine) : base(uiService)
 		{
 			_world = world;
 			_runtimeData = runtimeData;
 			_objectPool = objectPool;
+			_stateMachine = stateMachine;
 		}
 
 
 		protected override void OnShow(UIBattlePreparationWindow window, int entity)
 		{
-			var availableUnits = _runtimeData.AvailableUnits;
-			window.BindArmy(_runtimeData.AvailableUnits);
-			
+			window.BindArmy(_runtimeData.DrawableUnits);
+
 			window.ButtonsProvider.Subscribe("RestartDrawing", () =>
 			{
 				EcsPool<UnitComponent> pool = _world.GetPool<UnitComponent>();
@@ -65,6 +68,7 @@ namespace ECS.Systems.UI
 				}
 			});
 
+			window.ButtonsProvider.Subscribe("Home", () => _stateMachine.SetState(AppState.Hub));
 			window.StringButtonsProvider.Subscribe(OnClick);
 		}
 

@@ -1,4 +1,5 @@
 using System;
+using CMS;
 using Common;
 using ECS.FSM;
 using ECS.Systems;
@@ -15,12 +16,15 @@ namespace ECS
 	public class EcsStartup : MonoBehaviour
 	{
 		[SerializeField, Get] private LifetimeScope _scope;
+		[SerializeField] private AssetProvider _assetProvider;
+
 		private EcsSystems _systems;
 
 		public void Start()
 		{
 			_scope.CreateChild(builder =>
 			{
+				builder.RegisterInstance(_assetProvider);
 				builder.Register<RuntimeData>(Lifetime.Singleton);
 				builder.Register<User>(Lifetime.Singleton);
 				builder.Register<ApiService>(Lifetime.Singleton);

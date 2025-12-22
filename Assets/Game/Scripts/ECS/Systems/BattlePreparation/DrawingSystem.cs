@@ -9,11 +9,11 @@ namespace ECS.Systems
 {
 	public class DrawingSystem : IEcsRunSystem, IEcsInitSystem
 	{
+		private const float SpawnDelay = 0.05f;
 		private readonly EcsWorld _ecsWorld;
 		private readonly RuntimeData _runtimeData;
 		private Camera _camera;
-		private float _spawnDelay = 0.05f;
-		private float _lastSpawnTime = 0f;
+		private float _lastSpawnTime;
 
 		[Inject]
 		public DrawingSystem(EcsWorld ecsWorld, RuntimeData runtimeData)
@@ -35,7 +35,7 @@ namespace ECS.Systems
 			if (EventSystem.current.IsPointerOverGameObject())
 				return;
 
-			if (Time.time - _lastSpawnTime < _spawnDelay)
+			if (Time.time - _lastSpawnTime < SpawnDelay)
 				return;
 
 			var ray = _camera.ScreenPointToRay(Input.mousePosition);
@@ -48,7 +48,7 @@ namespace ECS.Systems
 			if (string.IsNullOrEmpty(_runtimeData.SelectedUnitKey))
 				return;
 
-			_runtimeData.AvailableUnits.TryGetValue(_runtimeData.SelectedUnitKey, out int availableUnitsCount);
+			_runtimeData.DrawableUnits.TryGetValue(_runtimeData.SelectedUnitKey, out int availableUnitsCount);
 			if (availableUnitsCount <= 0)
 				return;
 

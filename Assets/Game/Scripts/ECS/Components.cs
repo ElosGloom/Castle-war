@@ -2,7 +2,6 @@
 using ECS.Monobehaviours;
 using FPS.UI;
 using UnityEngine;
-using Quaternion = UnityEngine.Quaternion;
 
 namespace ECS
 {
