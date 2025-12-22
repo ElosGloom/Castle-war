@@ -27,8 +27,8 @@ namespace UI
 
 		public void Init(Lifetime lifetime, Transform parent, HashSet<string> category)
 		{
+			Bind(lifetime, category);
 			_categorizedInventory.Advise(lifetime, OnInventoryUpdate);
-			Bind(category);
 			lifetime.OnTermination(Clear);
 			return;
 
@@ -38,8 +38,8 @@ namespace UI
 				{
 					case AddUpdateRemove.Add:
 						var cell = _objectPool.Get<UIInventoryCellView>();
-						//todo: update icon
 						cell.Icon = _assetProvider.Sprites[mapEvent.Key];
+						cell.Count = mapEvent.NewValue.ToString();
 						cell.transform.SetParent(parent, false);
 						_inventoryCells.Add(mapEvent.Key, cell);
 						break;
@@ -58,19 +58,30 @@ namespace UI
 
 		private void Clear()
 		{
-			foreach (var cell in _inventoryCells.Values) 
+			foreach (var cell in _inventoryCells.Values)
 				_objectPool.Return(cell);
+			
+			_inventoryCells.Clear();
 		}
 
 
-		private void Bind(HashSet<string> category)
+		private void Bind(Lifetime lifetime, HashSet<string> category)
 		{
-			foreach (var (itemId, count) in _user.Inventory.AllItems)
-			{
-				if (!category.Contains(itemId))
-					continue;
+			_user.Inventory.AllItems.Advise(lifetime, OnInventoryUpdate);
+			return;
 
-				_categorizedInventory.Add(itemId, count);
+			void OnInventoryUpdate(MapEvent<string, int> mapEvent)
+			{
+				if (!category.Contains(mapEvent.Key))
+					return;
+
+				if (!_categorizedInventory.ContainsKey(mapEvent.Key))
+				{
+					_categorizedInventory.Add(mapEvent.Key, mapEvent.NewValue);
+					return;
+				}
+
+				_categorizedInventory[mapEvent.Key] = mapEvent.NewValue;
 			}
 		}
 	}
