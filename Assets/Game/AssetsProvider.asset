@@ -28,3 +28,11 @@ MonoBehaviour:
       - Key: rune
         Value: {fileID: 21300000, guid: 4af0e41bb767a439d94a8ead0b6fa0e4, type: 3}
       keyCollision: 0
+  Prefabs:
+    _buildings:
+      list:
+      - Key: melee_spawner
+        Value: {fileID: 4288198876021243616, guid: 5f46b8114b6001d4d9de838cab4e1f98, type: 3}
+      - Key: range_spawner
+        Value: {fileID: 1195319192994259193, guid: 415bc7237229262438936799b9ea1a93, type: 3}
+      keyCollision: 0

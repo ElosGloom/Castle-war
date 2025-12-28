@@ -6,5 +6,6 @@ namespace CMS
 	public class AssetProvider : ScriptableObject
 	{
 		public Sprites Sprites;
+		public Prefabs Prefabs;
 	}
 }

@@ -323,6 +323,7 @@ MonoBehaviour:
   cachedTransform: {fileID: 5245618501575924860}
   canvasGroup: {fileID: 474783913934085563}
   _armyParent: {fileID: 3963687921293444231}
+  _currencyParent: {fileID: 4699435623084584085}
   _buttonsProvider: {fileID: 6143785838939456216}
 --- !u!114 &6143785838939456216
 MonoBehaviour:
