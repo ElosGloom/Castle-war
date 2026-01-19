@@ -1,7 +1,7 @@
-using System;
 using System.Globalization;
 using Common;
 using Cysharp.Threading.Tasks;
+using FPS;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -57,7 +57,7 @@ namespace Network
 
 		public async UniTask<RequestResult> SyncUserData(User user)
 		{
-			var encodedData = user.Serialize();
+			var encodedData = GZip.Encode(user.Serialize());
 			PlayerPrefs.SetString(Constants.UserPrefsKey, encodedData);
 			PlayerPrefs.Save();
 
@@ -69,15 +69,13 @@ namespace Network
 					Response = string.Empty
 				};
 			}
+
 			var form = new WWWForm();
 			form.AddField("playtime", user.Playtime.ToString(CultureInfo.InvariantCulture));
 			form.AddField("data", encodedData);
 			var result = await Post("data/user", form);
 			if (result.IsSuccess)
-			{
-				encodedData = result.Response;
-				user.Deserialize(encodedData);
-			}
+				user.Deserialize(GZip.Decode(result.Response));
 
 			return result;
 		}

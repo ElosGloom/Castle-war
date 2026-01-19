@@ -25,4 +25,8 @@ MonoBehaviour:
     <Count>k__BackingField: 1
     <Key>k__BackingField: range
     <PrewarmType>k__BackingField: 0
-  renamePoolables: 0
+  - <Prefab>k__BackingField: {fileID: 9000643080830419761, guid: 62ec279f5aa99f34fa2b28a7b9babd63, type: 3}
+    <Count>k__BackingField: 2
+    <Key>k__BackingField: 
+    <PrewarmType>k__BackingField: 0
+  renamePoolables: 1

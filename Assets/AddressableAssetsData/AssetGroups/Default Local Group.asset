@@ -26,6 +26,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - Window
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0b8c770cbe78594c9c3c0f67558f715
+    m_Address: Hub
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c80a271854f705b42a91d395503c3019
     m_Address: Assets/FPS/Base/Prefabs/Addressables/UIBattlePreparationWindow.prefab
     m_ReadOnly: 0

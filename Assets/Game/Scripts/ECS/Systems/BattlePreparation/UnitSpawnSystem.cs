@@ -2,47 +2,48 @@
 using ECS.Monobehaviours;
 using FPS.Pool;
 using Leopotam.EcsLite;
-using UniRx;
 using VContainer;
 
 namespace ECS.Systems
 {
-    public class UnitSpawnSystem : IEcsRunSystem
-    {
-        private readonly EcsWorld _ecsWorld;
-        private readonly RuntimeData _runtimeData;
-        private readonly IObjectPool _objectPool;
-        private EcsFilter _filter;
-        private string _selectedUnitName;
+	public class UnitSpawnSystem : IEcsRunSystem, IEcsInitSystem
+	{
+		private readonly EcsWorld _ecsWorld;
+		private readonly RuntimeData _runtimeData;
+		private readonly IObjectPool _objectPool;
+		private EcsFilter _filter;
+		private string _selectedUnitName;
 
-        [Inject]
-        public UnitSpawnSystem(EcsWorld ecsWorld, RuntimeData runtimeData, IObjectPool objectPool)
-        {
-            _ecsWorld = ecsWorld;
-            _runtimeData = runtimeData;
-            _objectPool = objectPool;
-        }
+		[Inject]
+		public UnitSpawnSystem(EcsWorld ecsWorld, RuntimeData runtimeData, IObjectPool objectPool)
+		{
+			_ecsWorld = ecsWorld;
+			_runtimeData = runtimeData;
+			_objectPool = objectPool;
+		}
 
-        public void Run(IEcsSystems systems)
-        {
-            _filter = _ecsWorld.Filter<UnitSpawnRequest>().End();
-            foreach (var unitsEntity in _filter)
-            {
-                EcsPool<UnitComponent> pool = _ecsWorld.GetPool<UnitComponent>();
-                ref UnitComponent unitComponent = ref pool.Add(unitsEntity);
+		public void Init(IEcsSystems systems)
+		{
+			_filter = _ecsWorld.Filter<UnitSpawnRequest>().End();
+		}
 
-                EcsPool<UnitSpawnRequest> pool2 = _ecsWorld.GetPool<UnitSpawnRequest>();
+		public void Run(IEcsSystems systems)
+		{
+			foreach (var unitsEntity in _filter)
+			{
+				var pool = _ecsWorld.GetPool<UnitComponent>();
+				ref var unitComponent = ref pool.Add(unitsEntity);
 
-                var unit = _objectPool.Get<UnitView>(_selectedUnitName);
-                unit.transform.position = pool2.Get(unitsEntity).Position;
-                unitComponent.UnitView = unit;
+				var requestPool = _ecsWorld.GetPool<UnitSpawnRequest>();
 
-                _runtimeData.SpawnedUnits.Push(unit);
-                pool2.Del(unitsEntity);
-                _runtimeData.DeleteAvailableUnit(_selectedUnitName);
-            }
+				var unit = _objectPool.Get<UnitView>(_runtimeData.SelectedUnitKey);
+				unit.transform.position = requestPool.Get(unitsEntity).Position;
+				unitComponent.UnitView = unit;
 
-            _runtimeData.SelectedUnitsKey.Subscribe(key => { _selectedUnitName = key; });
-        }
-    }
+				_runtimeData.SpawnedUnits.Push(unit);
+				requestPool.Del(unitsEntity);
+				_runtimeData.DeleteAvailableUnit(_runtimeData.SelectedUnitKey);
+			}
+		}
+	}
 }

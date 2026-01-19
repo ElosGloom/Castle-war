@@ -7,53 +7,57 @@ using VContainer;
 
 namespace ECS.Systems
 {
-    public class DrawingSystem : IEcsRunSystem, IEcsInitSystem
-    {
-        private readonly EcsWorld _ecsWorld;
-        private readonly RuntimeData _runtimeData;
-        private Camera _camera;
-        private float _spawnDelay = 0.05f;
-        private float _lastSpawnTime = 0f;
+	public class DrawingSystem : IEcsRunSystem, IEcsInitSystem
+	{
+		private const float SpawnDelay = 0.05f;
+		private readonly EcsWorld _ecsWorld;
+		private readonly RuntimeData _runtimeData;
+		private Camera _camera;
+		private float _lastSpawnTime;
 
-        [Inject]
-        public DrawingSystem(EcsWorld ecsWorld, RuntimeData runtimeData)
-        {
-            _ecsWorld = ecsWorld;
-            _runtimeData = runtimeData;
-        }
+		[Inject]
+		public DrawingSystem(EcsWorld ecsWorld, RuntimeData runtimeData)
+		{
+			_ecsWorld = ecsWorld;
+			_runtimeData = runtimeData;
+		}
 
-        public void Init(IEcsSystems systems)
-        {
-            _camera = Camera.main;
-        }
+		public void Init(IEcsSystems systems)
+		{
+			_camera = Camera.main;
+		}
 
-        public void Run(IEcsSystems systems)
-        {
-            if (!Input.GetMouseButton(0)) return;
+		public void Run(IEcsSystems systems)
+		{
+			if (!Input.GetMouseButton(0))
+				return;
 
-            if (EventSystem.current.IsPointerOverGameObject()) return;
+			if (EventSystem.current.IsPointerOverGameObject())
+				return;
 
-            if (Time.time - _lastSpawnTime < _spawnDelay) return;
+			if (Time.time - _lastSpawnTime < SpawnDelay)
+				return;
 
-            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+			var ray = _camera.ScreenPointToRay(Input.mousePosition);
+			if (!Physics.Raycast(ray, out var hit))
+				return;
 
-            if (!Physics.Raycast(ray, out var hit)) return;
+			if (!hit.collider.gameObject.GetComponent<SpawnZone>())
+				return;
 
-            var hitPoint = hit.point;
+			if (string.IsNullOrEmpty(_runtimeData.SelectedUnitKey))
+				return;
 
-            if (!hit.collider.gameObject.GetComponent<SpawnZone>()) return;
+			_runtimeData.DrawableUnits.TryGetValue(_runtimeData.SelectedUnitKey, out int availableUnitsCount);
+			if (availableUnitsCount <= 0)
+				return;
 
-            if (_runtimeData.SelectedUnitsKey.Value == null) return;
-            
-            _runtimeData.AvailableUnits.TryGetValue(_runtimeData.SelectedUnitsKey.Value, out int value);
-            if (value <= 0) return;
+			var newUnit = _ecsWorld.NewEntity();
+			var pool = _ecsWorld.GetPool<UnitSpawnRequest>();
+			ref var unitComponent = ref pool.Add(newUnit);
+			unitComponent.Position = hit.point;
 
-            var newUnit = _ecsWorld.NewEntity();
-            EcsPool<UnitSpawnRequest> pool = _ecsWorld.GetPool<UnitSpawnRequest>();
-            ref UnitSpawnRequest unitComponent = ref pool.Add(newUnit);
-            unitComponent.Position = hitPoint;
-
-            _lastSpawnTime = Time.time;
-        }
-    }
+			_lastSpawnTime = Time.time;
+		}
+	}
 }

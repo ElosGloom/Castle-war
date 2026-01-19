@@ -13,14 +13,19 @@ namespace ECS.Systems.UI
 	{
 		private readonly User _user;
 		private readonly EcsWorld _world;
+		private readonly IAppStateMachine _appStateMachine;
 		private readonly ApiService _apiService;
 
 		[Inject]
-		public LoginUISystem(IUIService uiService, User user, ApiService apiService,
-			EcsWorld world) : base(uiService)
+		public LoginUISystem(IUIService uiService,
+			User user,
+			ApiService apiService,
+			EcsWorld world,
+			IAppStateMachine appStateMachine) : base(uiService)
 		{
 			_user = user;
 			_world = world;
+			_appStateMachine = appStateMachine;
 			_apiService = apiService;
 		}
 
@@ -29,7 +34,7 @@ namespace ECS.Systems.UI
 		{
 			window.ButtonsProvider.Subscribe("Close", () =>
 			{
-				AppStateMachine.SetState(AppState.MainMenu);
+				_appStateMachine.SetState(AppState.Hub);
 				UIHelper.HideWindow<UILoginWindow>(_world);
 			});
 
@@ -57,7 +62,7 @@ namespace ECS.Systems.UI
 			if (result.IsSuccess)
 			{
 				await _apiService.SyncUserData(_user);
-				AppStateMachine.SetState(AppState.MainMenu);
+				_appStateMachine.SetState(AppState.Hub);
 				UIHelper.HideWindow<UILoginWindow>(_world);
 			}
 		}

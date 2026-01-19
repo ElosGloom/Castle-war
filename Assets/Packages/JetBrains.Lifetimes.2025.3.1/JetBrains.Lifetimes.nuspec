@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>JetBrains.Lifetimes</id>
+    <version>2025.3.1</version>
+    <authors>JetBrains</authors>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://github.com/JetBrains/rd</projectUrl>
+    <description>JetBrains Core library for graceful disposal, concurrency and reactive programming</description>
+    <releaseNotes>Embedding package icon</releaseNotes>
+    <copyright>Copyright © JetBrains 2025</copyright>
+    <tags>rd lifetime reactive viewable</tags>
+    <repository type="git" url="https://github.com/JetBrains/rd" commit="9f0ed08bcb964b07e3597f01c4b4442d1659eb36" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2" />
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+</package>

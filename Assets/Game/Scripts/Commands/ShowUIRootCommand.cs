@@ -20,7 +20,7 @@ namespace Commands
 		{
 			try
 			{
-				UIHelper.ShowWindow<UIMainMenuWindow>(_world);
+				UIHelper.ShowWindow<UIHubWindow>(_world);
 				Status = CommandStatus.Success;
 			}
 			catch (Exception e)

@@ -1,29 +1,43 @@
 using System;
+using Buildings;
+using CMS;
 using Common;
 using ECS.FSM;
 using ECS.Systems;
+using ECS.Systems.Common;
+using ECS.Systems.Hub;
+using ECS.Systems.Timer;
 using ECS.Systems.UI;
 using FPS;
+using JetBrains.Lifetimes;
 using Leopotam.EcsLite;
 using Network;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using Lifetime = VContainer.Lifetime;
 
 namespace ECS
 {
 	public class EcsStartup : MonoBehaviour
 	{
+		[SerializeField, Get] private LifetimeScope _scope;
+		[SerializeField] private AssetProvider _assetProvider;
+
+		private readonly LifetimeDefinition _appDefinition = new ();
 		private EcsSystems _systems;
-		[SerializeField, Get] private LifetimeScope scope;
 
 		public void Start()
 		{
-			scope.CreateChild(builder =>
+			_scope.CreateChild(builder =>
 			{
+				builder.RegisterInstance(_appDefinition.Lifetime);
+				builder.RegisterInstance(_assetProvider);
 				builder.Register<RuntimeData>(Lifetime.Singleton);
+				builder.Register<TimerInitializer>(Lifetime.Singleton);
 				builder.Register<User>(Lifetime.Singleton);
 				builder.Register<ApiService>(Lifetime.Singleton);
+				builder.Register<AppStateMachine>(Lifetime.Singleton).As<IAppStateMachine>();
 				builder.RegisterInstance<EcsWorld>(new());
 				builder.RegisterBuildCallback(InitSystems);
 			});
@@ -47,26 +61,32 @@ namespace ECS
 
 				#region States
 
-				.Add(NewSystem<AppInitState>())
-				.Add(NewSystem<MainMenuState>())
-				.Add(NewSystem<PreBattleState>())
-				.Add(NewSystem<AppStateMachine>()) //todo: inject
+				.Add(CreateSystem<AppInitState>())
+				.Add(CreateSystem<HubState>())
+				.Add(CreateSystem<PreBattleState>())
+				.Add(CreateSystem<HubBuilder>())
+				.Add(CreateSystem<IAppStateMachine>())
 
 				#endregion
 
 				#region UI
 
-				.Add(NewSystem<CloseWindowSystem>())
-				.Add(NewSystem<MainMenuSystem>())
-				.Add(NewSystem<LoginUISystem>())
-				.Add(NewSystem<BattlePreparationUISystem>())
+				.Add(CreateSystem<CloseWindowSystem>())
+				.Add(CreateSystem<HubUISystem>())
+				.Add(CreateSystem<LoginUISystem>())
+				.Add(CreateSystem<BattlePreparationUISystem>())
 
+				#endregion
+
+				#region Hub
+				.Add(CreateSystem<BuildingsLoadSystem>())
+				.Add(CreateSystem<BuildingSpawnSystem>())
 				#endregion
 
 				#region PreBattle
 
-				.Add(NewSystem<DrawingSystem>())
-				.Add(NewSystem<UnitSpawnSystem>())
+				.Add(CreateSystem<DrawingSystem>())
+				.Add(CreateSystem<UnitSpawnSystem>())
 
 				#endregion
 
@@ -74,12 +94,14 @@ namespace ECS
 
 				#endregion
 
-				.Add(NewSystem<SaveSystem>())
+				.Add(CreateSystem<TimerUpdateSystem>())
+				.Add(CreateSystem<SaveSystem>())
+				.Add(CreateSystem<RemoveRequestsSystem>())
 				.Init();
 
 			return;
 
-			T NewSystem<T>() where T : IEcsSystem
+			T CreateSystem<T>() where T : IEcsSystem
 			{
 				return resolver.TryResolve<T>(out var resolved)
 					? resolved
@@ -95,6 +117,7 @@ namespace ECS
 
 		private void OnDestroy()
 		{
+			_appDefinition.Terminate();
 			_systems?.Destroy();
 			_systems?.GetWorld()?.Destroy();
 			_systems = null;

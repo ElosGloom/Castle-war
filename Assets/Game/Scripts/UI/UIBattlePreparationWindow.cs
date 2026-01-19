@@ -2,27 +2,31 @@ using FPS;
 using FPS.UI;
 using FPS.UI.Buttons;
 using FPS.UI.Buttons.Generic;
-using UniRx;
+using JetBrains.Collections.Viewable;
 using UnityEngine;
 
 namespace UI
 {
-    public class UIBattlePreparationWindow : UIWindow
-    {
-        public SerializableDictionary<string,UIUnitsCounter> counters;
-        [SerializeField, Get] private ButtonsProvider buttonsProvider;
-        [SerializeField, Get] private StringButtonsProvider stringButtonsProvider;
+	public class UIBattlePreparationWindow : UIWindow
+	{
+		[SerializeField] private SerializableDictionary<string, UIInventoryCellView> _armyCells;
+		[SerializeField, Get] private ButtonsProvider _buttonsProvider;
+		[SerializeField, Get] private StringButtonsProvider _stringButtonsProvider;
 
-        public IButtonsProvider ButtonsProvider => buttonsProvider;
-        public IButtonsProvider<string> StringButtonsProvider => stringButtonsProvider;
-        
+		public IButtonsProvider ButtonsProvider => _buttonsProvider;
+		public IButtonsProvider<string> StringButtonsProvider => _stringButtonsProvider;
 
-        public readonly CompositeDisposable Disposable = new();
 
-        protected override void AfterHide()
-        {
-            Disposable.Clear();
-            base.AfterHide();
-        }
-    }
+
+		public void BindArmy(IViewableMap<string, int> runtimeDataDrawableUnits)
+		{
+			
+		}
+
+		private void UpdateCounter(string key, int value)
+		{
+			if (_armyCells.TryGetValue(key, out var cell))
+				cell.Count = value.ToString();
+		}
+	}
 }
