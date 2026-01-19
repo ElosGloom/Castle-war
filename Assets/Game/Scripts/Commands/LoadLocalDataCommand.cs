@@ -1,0 +1,39 @@
+﻿using Common;
+using DTO;
+using FPS;
+using FPS.Sheets;
+using UnityEngine;
+using VContainer;
+
+namespace Commands
+{
+	public class LoadLocalDataCommand : SyncCommand
+	{
+		private readonly DTOStorage _dtoStorage;
+		private readonly User _user;
+
+		[Inject]
+		public LoadLocalDataCommand(DTOStorage dtoStorage, User user)
+		{
+			_dtoStorage = dtoStorage;
+			_user = user;
+		}
+
+		public override void Do()
+		{
+			//local save
+			bool hasSave = PlayerPrefs.HasKey(Constants.UserPrefsKey);
+			if (hasSave)
+			{
+				var encodedData = PlayerPrefs.GetString(Constants.UserPrefsKey);
+				_user.Deserialize(GZip.Decode(encodedData));
+			}
+			else
+			{
+				_user.SetDefaults(_dtoStorage.GetSingle<UserDTO>());
+			}
+
+			Status = CommandStatus.Success;
+		}
+	}
+}
